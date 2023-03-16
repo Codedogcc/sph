@@ -149,10 +149,20 @@ query参数：路由不需要占位，写法类似于ajax当中query参数
 路由传递参数先关面试题
      1:路由传递参数（对象写法）path是否可以结合params参数一起使用?
      不可以：不能这样书写，程序会崩掉
+
      2:如何指定params参数可传可不传? 
+     如果路由要求传递params参数，但是你就不传递params参数，发现一件事情.URL会有问题
+     如何指定params参数可以传递、或者不传递？
+     在配置路由的时候，在占位的后面加上一个问号【params传递或者不传递都可以】
+
      3:params参数可以传递也可以不传递，但是如果传递是空串，如何解决？
+     // 使用undefined解决: params参数可以传递、不传递(空的字符串)
+     // this.$router.push({name: 'search' ,params:{keyword: '' || undefined},query:{k;this .keyword.toUpperCase()}}); I
+
      4:如果指定name与params配置, 但params中数据是一个"", 无法跳转，路径会出问题
      5: 路由组件能不能传递props数据?
+     可以，三种写法：
+     
      
 
 

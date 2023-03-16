@@ -23,9 +23,9 @@ export default new VueRouter({
       //路由配置项：书写的时候不要胡写、乱写、瞎写【在VC组件身上获取不到,没有任何意义】
       meta: { show: true },
     },
-    { 
+    {
       name: 'search',
-      //在注册路由的时候,如果这里占位，切记务必要传递params
+      //在注册路由的时候,如果这里占位，切记务必要传递params，当params后面带有问号的时候，这时就可传可不传
       path: '/search/:keyword?',
       component: Search,
       meta: { show: true },
