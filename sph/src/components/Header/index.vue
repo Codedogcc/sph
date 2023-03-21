@@ -83,9 +83,16 @@ export default {
       // });
 
       // 第四种模板字符串
+      // let result = this.$router.push(
+      //   `/search/${this.keyword}?k=${this.keyword.toUpperCase()}`
+      // );
+      // console.log('result', result);  // 打印可看出result是一个promise
+      // 第四种模板字符串
       this.$router.push(
-        `/search/${this.keyword}?k=${this.keyword.toupperCase()}`
+        `/search/${this.keyword}?k=${this.keyword.toUpperCase()}`
       );
+      console.log(this.$router);
+      console.log(this);
     },
   },
 };
