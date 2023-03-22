@@ -9,15 +9,6 @@
             <div class="swiper-slide">
               <img src="./images/banner1.jpg" />
             </div>
-            <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner4.jpg" />
-            </div>
           </div>
           <!-- 如果需要分页器 -->
           <div class="swiper-pagination"></div>
