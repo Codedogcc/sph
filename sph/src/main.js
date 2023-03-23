@@ -8,6 +8,13 @@ Vue.component(TypeNav.name, TypeNav)
 
 //注册路由功能
 import router from './router';
+
+
+//测试
+import { reqCategoryList } from '@/api';
+reqCategoryList();
+
+
 new Vue({
   render: h => h(App),
   // 下面代码作用:给项目添加路由功能,给全部VC实例身上拥有两个属性,$router|$route
