@@ -1,19 +1,17 @@
 import Vue from 'vue'
 import App from './App.vue'
 //三级联动组件---全局组件
-import TypeNav from '@/pages/Home/TypeNav'
+import TypeNav from '@/components/TypeNav'
 //第一个参数:全局组件的名字 第二个参数: 哪一个组件
 Vue.component(TypeNav.name, TypeNav)
 
 //注册路由功能
-import router from './router';
+import router from '@/router';
 
 // 注册vuex的仓库
-import store from "./store";
+import store from "@/store";
 
-//测试
-import { reqCategoryList } from '@/api';
-reqCategoryList();
+
 
 
 new Vue({
