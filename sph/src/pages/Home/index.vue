@@ -1,14 +1,15 @@
 <template>
   <div>
     <!-- 三级联动全局组件,三级联动已经注册为全局组件，因此不需要在引入 -->
-    <TypeNav></TypeNav>
+    <!-- <TypeNav></TypeNav>
     <ListContainer></ListContainer>
     <Recommend></Recommend>
     <Rank></Rank>
     <Like></Like>
     <Floor></Floor>
     <Floor></Floor>
-    <Brand></Brand>
+    <Brand></Brand> -->
+
   </div>
 </template>
 
@@ -20,6 +21,8 @@ import Rank from '@/pages/Home/Rank';
 import Like from '@/pages/Home/Like';
 import Floor from '@/pages/Home/Floor';
 import Brand from '@/pages/Home/Brand';
+
+
 export default {
   name: '',
   components: {
@@ -30,6 +33,7 @@ export default {
     Floor,
     Brand,
   },
+
 };
 </script>
 
