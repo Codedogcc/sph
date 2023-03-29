@@ -60,6 +60,9 @@
 
 <script>
 import { mapState } from 'vuex';
+// 最好的引入方式：按需加载
+import throttle from 'lodash/throttle';
+
 export default {
   name: 'TypeNav',
   data() {
@@ -87,9 +90,14 @@ export default {
   },
   methods: {
     //鼠标进入修改响应式数据currentIndex属性
-    changeIndex(index) {
+    // changeIndex(index) {
+    //   this.currentIndex = index;
+    // },
+    // 运用了lodash.js里面的节流写法  _.throttle
+    // throttle回调函数别用箭头函数，可能出现上下文 this的问题
+    changeIndex: throttle(function (index) {
       this.currentIndex = index;
-    },
+    }, 500),
     //一级分类鼠标移出的事件回调
     leaveIndex() {
       this.currentIndex = -1;
