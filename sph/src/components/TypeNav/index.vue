@@ -4,8 +4,9 @@
     <div class="container">
       <div @mouseleave="leaveIndex()">
         <h2 class="all">全部商品分类</h2>
+        <!-- 三级联动 -->
         <div class="sort">
-          <div class="all-sort-list2">
+          <div class="all-sort-list2" @click="goSearch">
             <div
               class="item"
               v-for="(item1, index) in categoryList"
@@ -13,7 +14,10 @@
               :class="{ cur: currentIndex == index }"
             >
               <h3 @mouseenter="changeIndex(index)">
-                <a href="">{{ item1.categoryName }}</a>
+                <a>{{ item1.categoryName }}</a>
+                <!-- <router-link to="/search">
+                  {{ item1.categoryName }}
+                </router-link> -->
               </h3>
               <!-- 二级、三级分类 -->
               <div
@@ -27,14 +31,20 @@
                 >
                   <dl class="fore">
                     <dt>
-                      <a href="">{{ item2.categoryName }}</a>
+                      <a>{{ item2.categoryName }}</a>
+                      <!-- <router-link to="/search">
+                        {{ item2.categoryName }}
+                      </router-link> -->
                     </dt>
                     <dd>
                       <em
                         v-for="(item3, index) in item2.categoryChild"
                         :key="item3.categoryId"
                       >
-                        <a href="">{{ item3.categoryName }}</a>
+                        <a>{{ item3.categoryName }}</a>
+                        <!-- <router-link to="/search">
+                          {{ item3.categoryName }}
+                        </router-link> -->
                       </em>
                     </dd>
                   </dl>
@@ -101,6 +111,11 @@ export default {
     //一级分类鼠标移出的事件回调
     leaveIndex() {
       this.currentIndex = -1;
+    },
+    goSearch() {
+      //最好的解决方案: 编程式导航 + 事件委派
+      //利用事件委派存在一些问题 1.点击的不一定是a标签  2.如何获取参数【1，2，3级分类的产品的名字，id】
+      this.$router.push('/search');
     },
   },
 };
