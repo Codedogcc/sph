@@ -6,6 +6,7 @@
         <h2 class="all">全部商品分类</h2>
         <!-- 三级联动 -->
         <div class="sort">
+          <!-- 利用事件委派+编程式导航实现路由的跳转与传递参数 -->
           <div class="all-sort-list2" @click="goSearch">
             <div
               class="item"
@@ -14,7 +15,11 @@
               :class="{ cur: currentIndex == index }"
             >
               <h3 @mouseenter="changeIndex(index)">
-                <a>{{ item1.categoryName }}</a>
+                <a
+                  :data-categoryName="item1.categoryName"
+                  :data-category1Id="item1.categoryId"
+                  >{{ item1.categoryName }}</a
+                >
                 <!-- <router-link to="/search">
                   {{ item1.categoryName }}
                 </router-link> -->
@@ -31,7 +36,11 @@
                 >
                   <dl class="fore">
                     <dt>
-                      <a>{{ item2.categoryName }}</a>
+                      <a
+                        :data-categoryName="item2.categoryName"
+                        :data-category2Id="item2.categoryId"
+                        >{{ item2.categoryName }}</a
+                      >
                       <!-- <router-link to="/search">
                         {{ item2.categoryName }}
                       </router-link> -->
@@ -41,7 +50,11 @@
                         v-for="(item3, index) in item2.categoryChild"
                         :key="item3.categoryId"
                       >
-                        <a>{{ item3.categoryName }}</a>
+                        <a
+                          :data-categoryName="item3.categoryName"
+                          :data-category3Id="item3.categoryId"
+                          >{{ item3.categoryName }}</a
+                        >
                         <!-- <router-link to="/search">
                           {{ item3.categoryName }}
                         </router-link> -->
@@ -112,10 +125,34 @@ export default {
     leaveIndex() {
       this.currentIndex = -1;
     },
-    goSearch() {
+    goSearch(event) {
       //最好的解决方案: 编程式导航 + 事件委派
-      //利用事件委派存在一些问题 1.点击的不一定是a标签  2.如何获取参数【1，2，3级分类的产品的名字，id】
-      this.$router.push('/search');
+      //存在一些问题:事件委派，是把全部的子节点[h3、dt、d1、em] 的事件委派给父亲节点
+      //第一个问题，点击a标签的时候，才会进行路由跳转[怎么能确定点击的一定是a标签]
+      //存在另外一个问题: 即使你能确定点击的是a标签， 如何区分是一级、二级、三级分类的标签。
+
+      //第一个问题:把子节点当中a标签，我加上自定义属性data-categoryName，其余的子节点是没有的
+      // this.$router.push('/search');
+      let element = event.target;
+      let { categoryname, category1id, category2id, category3id } =
+        element.dataset;
+      if (categoryname) {
+        //整理路由跳转的参数
+        let location = { name: 'search' };
+        let query = { categoryName: categoryname };
+        if (category1id) {
+          query.category1Id = category1id;
+        } else if (category2id) {
+          query.category2Id = category2id;
+        } else {
+          query.category3Id = category3id;
+        }
+
+        //整理完参数
+        location.query = query;
+        //路由跳转
+        this.$router.push(location);
+      }
     },
   },
 };
