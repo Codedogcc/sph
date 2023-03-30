@@ -2,70 +2,72 @@
   <!-- 商品分类导航 -->
   <div class="type-nav">
     <div class="container">
-      <div @mouseleave="leaveIndex()">
+      <div @mouseleave="leaveIndex()" @mouseenter="enterShow()">
         <h2 class="all">全部商品分类</h2>
-        <!-- 三级联动 -->
-        <div class="sort">
-          <!-- 利用事件委派+编程式导航实现路由的跳转与传递参数 -->
-          <div class="all-sort-list2" @click="goSearch">
-            <div
-              class="item"
-              v-for="(item1, index) in categoryList"
-              :key="item1.categoryId"
-              :class="{ cur: currentIndex == index }"
-            >
-              <h3 @mouseenter="changeIndex(index)">
-                <a
-                  :data-categoryName="item1.categoryName"
-                  :data-category1Id="item1.categoryId"
-                  >{{ item1.categoryName }}</a
-                >
-                <!-- <router-link to="/search">
+        <!-- 三级联动、过渡动画 -->
+        <transition name="sort">
+          <div class="sort" v-show="show">
+            <!-- 利用事件委派+编程式导航实现路由的跳转与传递参数 -->
+            <div class="all-sort-list2" @click="goSearch">
+              <div
+                class="item"
+                v-for="(item1, index) in categoryList"
+                :key="item1.categoryId"
+                :class="{ cur: currentIndex == index }"
+              >
+                <h3 @mouseenter="changeIndex(index)">
+                  <a
+                    :data-categoryName="item1.categoryName"
+                    :data-category1Id="item1.categoryId"
+                    >{{ item1.categoryName }}</a
+                  >
+                  <!-- <router-link to="/search">
                   {{ item1.categoryName }}
                 </router-link> -->
-              </h3>
-              <!-- 二级、三级分类 -->
-              <div
-                class="item-list clearfix"
-                :style="{ display: currentIndex == index ? 'block' : 'none' }"
-              >
+                </h3>
+                <!-- 二级、三级分类 -->
                 <div
-                  class="subitem"
-                  v-for="(item2, index) in item1.categoryChild"
-                  :key="item2.categoryId"
+                  class="item-list clearfix"
+                  :style="{ display: currentIndex == index ? 'block' : 'none' }"
                 >
-                  <dl class="fore">
-                    <dt>
-                      <a
-                        :data-categoryName="item2.categoryName"
-                        :data-category2Id="item2.categoryId"
-                        >{{ item2.categoryName }}</a
-                      >
-                      <!-- <router-link to="/search">
-                        {{ item2.categoryName }}
-                      </router-link> -->
-                    </dt>
-                    <dd>
-                      <em
-                        v-for="(item3, index) in item2.categoryChild"
-                        :key="item3.categoryId"
-                      >
+                  <div
+                    class="subitem"
+                    v-for="(item2, index) in item1.categoryChild"
+                    :key="item2.categoryId"
+                  >
+                    <dl class="fore">
+                      <dt>
                         <a
-                          :data-categoryName="item3.categoryName"
-                          :data-category3Id="item3.categoryId"
-                          >{{ item3.categoryName }}</a
+                          :data-categoryName="item2.categoryName"
+                          :data-category2Id="item2.categoryId"
+                          >{{ item2.categoryName }}</a
                         >
                         <!-- <router-link to="/search">
+                        {{ item2.categoryName }}
+                      </router-link> -->
+                      </dt>
+                      <dd>
+                        <em
+                          v-for="(item3, index) in item2.categoryChild"
+                          :key="item3.categoryId"
+                        >
+                          <a
+                            :data-categoryName="item3.categoryName"
+                            :data-category3Id="item3.categoryId"
+                            >{{ item3.categoryName }}</a
+                          >
+                          <!-- <router-link to="/search">
                           {{ item3.categoryName }}
                         </router-link> -->
-                      </em>
-                    </dd>
-                  </dl>
+                        </em>
+                      </dd>
+                    </dl>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </transition>
       </div>
       <nav class="nav">
         <a href="###">服装城</a>
@@ -92,6 +94,7 @@ export default {
     return {
       //存储用户鼠标移上哪一个一级分类
       currentIndex: -1,
+      show: true,
     };
   },
   //组件挂载完毕:可以向服务器发请求
@@ -99,6 +102,11 @@ export default {
     //通知Vuex发请求，获取数据，存储于仓库当中
     this.$store.dispatch('home/categoryList');
     // this.$store.dispatch('home/category',this.n)
+    console.log('typeNav组件挂载完毕');
+    // typeNav组件挂载完毕的时候，把让show属性变成false
+    if (this.$route.path != '/home') {
+      this.show = false;
+    }
   },
   computed: {
     // ...mapState({
@@ -120,10 +128,19 @@ export default {
     // throttle回调函数别用箭头函数，可能出现上下文 this的问题
     changeIndex: throttle(function (index) {
       this.currentIndex = index;
-    }, 500),
+    }, 50),
     //一级分类鼠标移出的事件回调
     leaveIndex() {
       this.currentIndex = -1;
+      if (this.$route.path != '/home') {
+        this.show = false;
+      }
+    },
+    //当鼠标移入的时候，让商品分类列表进行展示
+    enterShow() {
+      if (this.$route.path != '/home') {
+        this.show = true;
+      }
     },
     goSearch(event) {
       //最好的解决方案: 编程式导航 + 事件委派
@@ -272,6 +289,23 @@ export default {
           background-color: lightblue;
         }
       }
+    }
+
+    // 过渡动画的样式
+    // 过渡动画开始状态（进入）
+    .sort-enter {
+      height: 0px;
+      transform: rotate(0deg);
+    }
+
+    .sort-enter-to {
+      height: 461px;
+      transform: rotate(360deg);
+    }
+
+    // 定义动画时间、速率
+    .sort-enter-active {
+      transition: all 0.5s linear;
     }
   }
 }
