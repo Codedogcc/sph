@@ -75,12 +75,18 @@ export default {
       //第二种传递params参数 [一定要注意,面试的时候经常问]
       // this.$router.push({name:'search',params:{keyword:this.keyword}})
 
-      //第三种传递query+params，对象写法
-      // this.$router.push({
-      //   name: "search",
-      //   params: { keyword: this.keyword },
-      //   query: { keyword: "ABC" },
-      // });
+      // 第三种传递query+params，对象写法
+      let location = {
+        name: 'search',
+        params: { keyword: this.keyword || undefined },
+        // query: { keyword: this.keyword.toUpperCase() },
+      };
+      // 如果有query函数就得一起带过去
+      console.log('this.$route.query', this.$route.query);
+      if (this.$route.query != {}) {
+        location.query = this.$route.query;
+      }
+      this.$router.push(location);
 
       // 第四种模板字符串
       // let result = this.$router.push(
@@ -88,11 +94,9 @@ export default {
       // );
       // console.log('result', result);  // 打印可看出result是一个promise
       // 第四种模板字符串
-      this.$router.push(
-        `/search/${this.keyword}?k=${this.keyword.toUpperCase()}`
-      );
-      console.log(this.$router);
-      console.log(this);
+      // this.$router.push(
+      //   `/search/${this.keyword}?k=${this.keyword.toUpperCase()}`
+      // );
     },
   },
 };
