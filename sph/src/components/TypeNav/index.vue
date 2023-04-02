@@ -99,9 +99,6 @@ export default {
   },
   //组件挂载完毕:可以向服务器发请求
   mounted() {
-    //通知Vuex发请求，获取数据，存储于仓库当中
-    this.$store.dispatch('home/categoryList');
-    // this.$store.dispatch('home/category',this.n)
     console.log('typeNav组件挂载完毕');
     // typeNav组件挂载完毕的时候，把让show属性变成false
     if (this.$route.path != '/home') {

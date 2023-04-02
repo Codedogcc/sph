@@ -6,7 +6,7 @@
     <!-- 发现底部的Footer会随着路由的变化进行显示与隐藏 -->
     <Footer v-show="$route.meta.show"></Footer>
     <!-- 分页器务必知道四个条件:total pageSize pageNo pagerCount -->
-     </div>
+  </div>
 </template>
 
 <script>
@@ -17,6 +17,11 @@ export default {
   components: {
     Header,
     Footer,
+  },
+  mounted() {
+    //通知Vuex发请求，获取数据，存储于仓库当中,派发action获取商品分类的三级列表的数据
+    this.$store.dispatch('home/categoryList');
+    // this.$store.dispatch('home/category',this.n)
   },
 };
 </script>
