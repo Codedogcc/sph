@@ -92,7 +92,17 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from 'vuex';
+export default {
+  name: '',
+  mounted() {
+    //派发action: 通过vuex发起ajax请求，将数据仓储在仓库当中
+    this.$store.dispatch('home/getBannerList');
+  },
+  computed: {
+    ...mapState('home', { categoryList: 'bannerList' }),
+  },
+};
 </script>
 
 <style scoped lang="less">
