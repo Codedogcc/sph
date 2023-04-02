@@ -10,7 +10,8 @@ import router from '@/router';
 
 // 注册vuex的仓库
 import store from "@/store";
-
+//引入MockServer.js----mock数据
+import '@/mock/mockServe';
 
 
 
