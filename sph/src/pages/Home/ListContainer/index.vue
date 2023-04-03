@@ -110,22 +110,22 @@ export default {
 
     //在new Swpier实例之前，页面中结构必须的有[现在老师把new Swiper实例放在mounte这里发现不行]
     //为什么:结构还不完整,在这里初始化swiper的时候，BannerList的数据还不完整
-    // setTimeout(() => {
-    //   var mySwiper = new Swiper(document.querySelector('.swiper-container'), {
-    //     loop: true,
-    //     // 如果需要分页器
-    //     pagination: {
-    //       el: '.swiper-pagination',
-    //       clickable: true,
-    //     },
-    //     // 如果需要前进后退按钮
-    //     navigation: {
-    //       nextEl: '.swiper-button-next',
-    //       prevEl: '.swiper-button-prev',
-    //     },
-    //   });
-    // }, 2000);
-    console.log('初始化BannerList')
+    setTimeout(() => {
+      var mySwiper = new Swiper(document.querySelector('.swiper-container'), {
+        loop: true, // 循环轮播图
+        // 如果需要分页器
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        // 如果需要前进后退按钮
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+      console.log('初始化bannerlist');
+    }, 3000);
   },
   computed: {
     ...mapState('home', { bannerList: 'bannerList' }),

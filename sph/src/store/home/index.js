@@ -16,6 +16,7 @@ const mutations = {
   },
   BANNERLIST(state, bannerList) {
     state.bannerList = bannerList
+    console.log('渲染轮播图数据');
   },
 };
 
@@ -35,6 +36,7 @@ const actions = {
     console.log('resule-', result)
     if (result.code == 200) {
       commit("BANNERLIST", result.data);
+      console.log("获得轮播图数据");
     }
   }
 
