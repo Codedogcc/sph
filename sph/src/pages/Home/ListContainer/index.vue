@@ -1,13 +1,19 @@
 <template>
   <!--列表-->
+  <!-- 5已经废弃用6版本按着文档来 把swiper-container改为swipe 要是左右箭头不在图片两侧就是swipe梅开绝对定位 -->
   <div class="list-container">
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
         <div class="swiper-container" id="mySwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
+            <!-- carousel是轮播图的意思 -->
+            <div
+              class="swiper-slide"
+              v-for="(carousel, index) in bannerList"
+              :key="carousel.id"
+            >
+              <img :src="carousel.imgUrl" />
             </div>
           </div>
           <!-- 如果需要分页器 -->
@@ -93,14 +99,36 @@
 
 <script>
 import { mapState } from 'vuex';
+// 引入包
+import Swiper from 'swiper';
 export default {
   name: '',
   mounted() {
     //派发action: 通过vuex发起ajax请求，将数据仓储在仓库当中
     this.$store.dispatch('home/getBannerList');
+    console.log('派发action到getBannerList');
+
+    //在new Swpier实例之前，页面中结构必须的有[现在老师把new Swiper实例放在mounte这里发现不行]
+    //为什么:结构还不完整,在这里初始化swiper的时候，BannerList的数据还不完整
+    // setTimeout(() => {
+    //   var mySwiper = new Swiper(document.querySelector('.swiper-container'), {
+    //     loop: true,
+    //     // 如果需要分页器
+    //     pagination: {
+    //       el: '.swiper-pagination',
+    //       clickable: true,
+    //     },
+    //     // 如果需要前进后退按钮
+    //     navigation: {
+    //       nextEl: '.swiper-button-next',
+    //       prevEl: '.swiper-button-prev',
+    //     },
+    //   });
+    // }, 2000);
+    console.log('初始化BannerList')
   },
   computed: {
-    ...mapState('home', { categoryList: 'bannerList' }),
+    ...mapState('home', { bannerList: 'bannerList' }),
   },
 };
 </script>

@@ -12,7 +12,8 @@ import router from '@/router';
 import store from "@/store";
 //引入MockServer.js----mock数据
 import '@/mock/mockServe';
-
+//引入swiper样式
+import "swiper/swiper-bundle.min.css"
 
 
 new Vue({
