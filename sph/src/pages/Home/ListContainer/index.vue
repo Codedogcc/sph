@@ -123,6 +123,9 @@ export default {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         },
+        autoplay: {
+          delay: 1000,
+        },
       });
       console.log('初始化bannerlist');
     }, 3000);
