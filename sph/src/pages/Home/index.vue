@@ -9,7 +9,7 @@
     <Floor
       v-for="(item, index) in floorList"
       :key="item.id"
-      :floor="floorList"
+      :floor="item"
     ></Floor>
     <Brand></Brand>
   </div>
