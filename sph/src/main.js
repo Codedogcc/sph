@@ -13,7 +13,7 @@ import store from "@/store";
 //引入MockServer.js----mock数据
 import '@/mock/mockServe';
 //引入swiper样式
-import "swiper/swiper-bundle.min.css"
+import "swiper/css/swiper.css"
 
 
 new Vue({
@@ -25,3 +25,4 @@ new Vue({
   //注册仓库:组件实例的身上会多个一个属性$store属性
   store
 }).$mount('#app')
+ 

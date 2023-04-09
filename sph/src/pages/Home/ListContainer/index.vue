@@ -110,25 +110,43 @@ export default {
 
     //在new Swpier实例之前，页面中结构必须的有[现在老师把new Swiper实例放在mounte这里发现不行]
     //为什么:结构还不完整,在这里初始化swiper的时候，BannerList的数据还不完整
-    setTimeout(() => {
-      var mySwiper = new Swiper(document.querySelector('.swiper-container'), {
-        loop: true, // 循环轮播图
-        // 如果需要分页器
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-        // 如果需要前进后退按钮
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-        autoplay: {
-          delay: 1000,
-        },
-      });
-      console.log('初始化bannerlist');
-    }, 3000);
+  },
+  watch: {
+    //监听bannerList数据的变化: 因为这条数据发生过变化----由空数组变为数组里面有四个元素
+    bannerList: {
+      handler(newValue, oldValue) {
+        if (newValue) {
+          //现在咱们通过watch监听bannerList届性的属性值的变化
+          //如果执行handler方法，代表组件实例身上这个属性的属性以已经有了[数组:四个元素]
+          //当前这个函数执行: 只能保证bannerList数据已经有了，但是你没办法保证v-for已经执行结束了
+          //v-for执行完毕，才有结构[你现在在watch当中没办法保证的]
+          console.log('bannerlist变化了！', newValue);
+          this.$nextTick(() => {
+            var mySwiper = new Swiper(
+              document.querySelector('.swiper-container'),
+              {
+                loop: true, // 循环轮播图
+                // 如果需要分页器
+                pagination: {
+                  el: '.swiper-pagination',
+                  clickable: true,
+                },
+                // 如果需要前进后退按钮
+                navigation: {
+                  nextEl: '.swiper-button-next',
+                  prevEl: '.swiper-button-prev',
+                },
+                autoplay: {
+                  delay: 1000,
+                },
+              }
+            );
+          });
+
+          console.log('初始化bannerlist');
+        }
+      },
+    },
   },
   computed: {
     ...mapState('home', { bannerList: 'bannerList' }),
