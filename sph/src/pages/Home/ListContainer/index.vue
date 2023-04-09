@@ -124,7 +124,7 @@ export default {
           this.$nextTick(() => {
             var mySwiper = new Swiper(
               // document.querySelector('.swiper-container'),    vue中用$ref获取dom节点
-              this.$ref.mySwiper,
+              this.$refs.mySwiper,
               {
                 loop: true, // 循环轮播图
                 // 如果需要分页器
@@ -150,7 +150,8 @@ export default {
     },
   },
   computed: {
-    ...mapState('home', { bannerList: 'bannerList' }),
+    // ...mapState('home', { bannerList: 'bannerList' }),
+    ...mapState('home', ['bannerList']),
   },
 };
 </script>

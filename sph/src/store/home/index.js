@@ -1,11 +1,14 @@
-import { reqCategoryList, reqGetBannerList } from '@/api'
+import { reqCategoryList, reqGetBannerList, reqFloorList } from '@/api'
 // home模块的小仓库
 
 //state:仓库存储数据的地方
 const state = {
-  //state中数据默认初始值别瞎写,服务器返回的是对象，这里就要用{}，若是数组，则用[]
+  //state中数据格式别瞎写,重点看接口返回的数据格式，如果服务器返回的是对象，这里就要用{}，若是数组，则用[]
   categoryList: [],
-  bannerList: []
+  //轮播图的数据
+  bannerList: [],
+  //floor组件的数据
+  floorList: [],
 };
 
 //mutations:修改state的唯一手段
@@ -18,6 +21,10 @@ const mutations = {
     state.bannerList = bannerList
     console.log('渲染轮播图数据');
   },
+  FLOORLIST(state, floorList) {
+    state.floorList = floorList
+    console.log('渲染FloorList数据');
+  },
 };
 
 //action:处理action,可以书写自己的业务逻辑，也可以处理异步
@@ -26,6 +33,7 @@ const actions = {
   // 通过API里面的接口函数调用，向服务器发请求，获取服务器的数据
   async categoryList({ commit }) {
     let result = await reqCategoryList();
+    console.log('resule-categoryList', result)
     if (result.code == 200) {
       commit("CATEGORYLIST", result.data);
     }
@@ -33,10 +41,20 @@ const actions = {
   // 获取首页轮播图的数据
   async getBannerList({ commit }) {
     let result = await reqGetBannerList();
-    console.log('resule-', result)
+    console.log('resule-getBannerList', result)
     if (result.code == 200) {
       commit("BANNERLIST", result.data);
-      console.log("获得轮播图数据");
+      console.log("获得轮播图数据并传给mutation");
+    }
+  },
+
+  // 获取首页轮播图的数据
+  async getFloorList({ commit }) {
+    let result = await reqFloorList();
+    console.log('resule-getFloorList', result)
+    if (result.code == 200) {
+      commit("FLOORLIST", result.data);
+      console.log("获得FloorList数据并传给mutation");
     }
   }
 

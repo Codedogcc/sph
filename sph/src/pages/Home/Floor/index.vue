@@ -88,7 +88,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  // mounted: {},
+  name: '',
+  props: ['floor'],
+};
 </script>
 
 <style scoped lang="less">

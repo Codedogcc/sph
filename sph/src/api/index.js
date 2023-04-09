@@ -13,3 +13,8 @@ export const reqCategoryList = () => {
 export const reqGetBannerList = () => {
   return mockRequests({ method: 'get', url: '/banner' });
 }
+
+// 获取floor数据
+export const reqFloorList = () => {
+  return mockRequests({ method: 'get', url: '/floor' });
+}
