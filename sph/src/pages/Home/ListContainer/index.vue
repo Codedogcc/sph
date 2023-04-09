@@ -5,7 +5,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
+        <div class="swiper-container" ref="mySwiper">
           <div class="swiper-wrapper">
             <!-- carousel是轮播图的意思 -->
             <div
@@ -123,7 +123,8 @@ export default {
           console.log('bannerlist变化了！', newValue);
           this.$nextTick(() => {
             var mySwiper = new Swiper(
-              document.querySelector('.swiper-container'),
+              // document.querySelector('.swiper-container'),    vue中用$ref获取dom节点
+              this.$ref.mySwiper,
               {
                 loop: true, // 循环轮播图
                 // 如果需要分页器
