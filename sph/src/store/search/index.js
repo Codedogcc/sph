@@ -26,7 +26,19 @@ const actions = {
 };
 
 //getters:理解为计算属性，用于简化仓库数据，让组件获取仓库的数据更加方便
-const getters = {};
+const getters = {
+  //当前形参state,当前仓库中的state，并非大仓库中的那个state
+  goodsList(state) {
+    return state.searchList.goodsList || []  // 这样书写是有问题的
+  },
+  trademarkList(state) {
+    return state.searchList.trademarkList || [] // 这样书写是有问题的
+  },
+  attrsList(state) {
+    return state.searchList.attrsList || [] // 这样书写是有问题的
+  },
+
+};
 
 
 //对外暴露仓库(store类的一个实例)
