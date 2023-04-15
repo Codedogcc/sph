@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import Carousel from '@/components/Carousel'; //  使用轮播图全局组件
+import Carousel from '@/components/Carousel'; // 使用全局轮播图组件
 import { mapState } from 'vuex';
 // 引入包
 export default {
@@ -89,16 +89,14 @@ export default {
   mounted() {
     //派发action: 通过vuex发起ajax请求，将数据仓储在仓库当中
     this.$store.dispatch('home/getBannerList');
-    this.$store.dispatch('home/getFloorList');
     console.log('派发action到getBannerList');
-    console.log('派发action到getFloorList');
     //在new Swpier实例之前，页面中结构必须的有[现在老师把new Swiper实例放在mounte这里发现不行]
     //为什么:结构还不完整,在这里初始化swiper的时候，BannerList的数据还不完整
   },
 
   computed: {
     // ...mapState('home', { bannerList: 'bannerList' }),
-    ...mapState('home', ['bannerList', 'floorList'])
+    ...mapState('home', ['bannerList'])
   }
 };
 </script>
