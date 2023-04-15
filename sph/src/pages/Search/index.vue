@@ -467,6 +467,10 @@ export default {
   name: 'Search',
   components: {
     SearchSelector
+  },
+  mounted() {
+    //派发action: 通过vuex发起ajax请求，将数据仓储在仓库当中
+    this.$store.dispatch('search/getSearchList', {});
   }
 };
 </script>
