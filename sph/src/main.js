@@ -1,9 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
-//三级联动组件---全局组件
+
+//引入三级联动组件---全局组件
 import TypeNav from '@/components/TypeNav'
 //第一个参数:全局组件的名字 第二个参数: 哪一个组件
 Vue.component(TypeNav.name, TypeNav)
+
+// 引入轮播图组件
+import Carousel from '@/components/Carousel'
+Vue.component(Carousel.name, Carousel)
+
 
 //注册路由功能
 import router from '@/router';
@@ -25,4 +31,3 @@ new Vue({
   //注册仓库:组件实例的身上会多个一个属性$store属性
   store
 }).$mount('#app')
- 

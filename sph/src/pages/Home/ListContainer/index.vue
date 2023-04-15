@@ -5,24 +5,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" ref="mySwiper">
-          <div class="swiper-wrapper">
-            <!-- carousel是轮播图的意思 -->
-            <div
-              class="swiper-slide"
-              v-for="(carousel, index) in bannerList"
-              :key="carousel.id"
-            >
-              <img :src="carousel.imgUrl" />
-            </div>
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
-
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
+        <Carousel :list="bannerList"></Carousel>
       </div>
       <div class="right">
         <div class="news">
@@ -98,61 +81,25 @@
 </template>
 
 <script>
+import Carousel from '@/components/Carousel'; //  使用轮播图全局组件
 import { mapState } from 'vuex';
 // 引入包
-import Swiper from 'swiper';
 export default {
-  name: '',
+  name: 'ListContainer',
   mounted() {
     //派发action: 通过vuex发起ajax请求，将数据仓储在仓库当中
     this.$store.dispatch('home/getBannerList');
+    this.$store.dispatch('home/getFloorList');
     console.log('派发action到getBannerList');
-
+    console.log('派发action到getFloorList');
     //在new Swpier实例之前，页面中结构必须的有[现在老师把new Swiper实例放在mounte这里发现不行]
     //为什么:结构还不完整,在这里初始化swiper的时候，BannerList的数据还不完整
   },
-  watch: {
-    //监听bannerList数据的变化: 因为这条数据发生过变化----由空数组变为数组里面有四个元素
-    bannerList: {
-      handler(newValue, oldValue) {
-        if (newValue) {
-          //现在咱们通过watch监听bannerList届性的属性值的变化
-          //如果执行handler方法，代表组件实例身上这个属性的属性以已经有了[数组:四个元素]
-          //当前这个函数执行: 只能保证bannerList数据已经有了，但是你没办法保证v-for已经执行结束了
-          //v-for执行完毕，才有结构[你现在在watch当中没办法保证的]
-          console.log('bannerlist变化了！', newValue);
-          this.$nextTick(() => {
-            var mySwiper = new Swiper(
-              // document.querySelector('.swiper-container'),    vue中用$ref获取dom节点
-              this.$refs.mySwiper,
-              {
-                loop: true, // 循环轮播图
-                // 如果需要分页器
-                pagination: {
-                  el: '.swiper-pagination',
-                  clickable: true,
-                },
-                // 如果需要前进后退按钮
-                navigation: {
-                  nextEl: '.swiper-button-next',
-                  prevEl: '.swiper-button-prev',
-                },
-                autoplay: {
-                  delay: 1000,
-                },
-              }
-            );
-          });
 
-          console.log('初始化bannerlist');
-        }
-      },
-    },
-  },
   computed: {
     // ...mapState('home', { bannerList: 'bannerList' }),
-    ...mapState('home', ['bannerList']),
-  },
+    ...mapState('home', ['bannerList', 'floorList'])
+  }
 };
 </script>
 
