@@ -18,7 +18,7 @@ const actions = {
   //params形参: 是当用户派发action的时候，第二个参数传递过来的，至少是一个空对象
   async getSearchList({ commit }, params = {}) {
     let result = await reqGetSearchInfo(params)
-    console.log("result---search的store", result);
+    console.log("result---search的store", result, "result---search的params", params);
     if (result.code == 200) {
       commit("GETSEARCHLIST", result.data);
     }

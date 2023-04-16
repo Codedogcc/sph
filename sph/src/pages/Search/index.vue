@@ -136,13 +136,46 @@ export default {
   components: {
     SearchSelector
   },
+  data() {
+    //带给服务器参数
+    return {
+      searchParams: {
+        category1Id: '', // 一级分类id
+        category2Id: '', // 二级分类id
+        category3Id: '', // 三级分类id
+        categoryName: '', // 分类名字
+        keyword: '', // 关键字
+        order: '', // 排序
+        pageNo: 1, // 页码
+        pageSize: 10, // 每页数据量
+        props: [], // 平台售卖属性操作带的参数
+        trademark: '' // 品牌
+      }
+    };
+  },
+  //组件挂载完毕之前执行一次[仅仅执行一次]，先于mounted
+  beforeMount() {
+    console.log(this.$route.query, 'this.$route.query');
+    // this.searchParams.category1Id = this.$route.query.category1id;
+    // this.searchParams.category2Id = this.$route.query.category2Id;
+    // this.searchParams.category3Id = this.$route.query.category3Id;
+    // this.searchParams.categoryName = this.$route.query.categoryName;
+    // this.searchParams.keyword = this.$route.params.keyword;
+    Object.assign(this.searchParams, this.$route.query, this.$route.params);
+  },
   mounted() {
-    //派发action: 通过vuex发起ajax请求，将数据仓储在仓库当中
-    this.$store.dispatch('search/getSearchList', {});
+    // 在发请求之前，searchParams里面的参数要变化
+    this.getData();
   },
   computed: {
     ...mapGetters('search', ['goodsList'])
     // ...mapState({ goodsList: (state) => state.search.searchList.goodsList })
+  },
+  methods: {
+    getData() {
+      //派发action: 通过vuex发起ajax请求，将数据仓储在仓库当中
+      this.$store.dispatch('search/getSearchList', this.searchParams);
+    }
   }
 };
 </script>
