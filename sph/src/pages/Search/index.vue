@@ -161,7 +161,27 @@ export default {
     // this.searchParams.category3Id = this.$route.query.category3Id;
     // this.searchParams.categoryName = this.$route.query.categoryName;
     // this.searchParams.keyword = this.$route.params.keyword;
-    Object.assign(this.searchParams, this.$route.query, this.$route.params);
+    // 在发请求之前，把接口需要传递参数，进行整理(在给服务器发请求之前，把参数整理好，服务器就会返回查询的)
+    Object.assign(this.searchParams, this.$route.query, this.$route.params); // 合并对象到第一个数组
+    console.log('发请求之前', this.searchParams);
+  },
+  // 数据监听: 监听组件实例身上的属性的属性值变化
+  watch: {
+    // 监听路由的信息是否发生变化，如果发生变化，再次发起请求
+    $route(newVal, oldVal) {
+      console.log('newVal', newVal, 'oldVal', oldVal);
+      //再次发请求之前整理带给服务器参数
+      Object.assign(this.searchParams, this.$route.query, this.$route.params);
+
+      //再次发送ajax请求
+      this.getData();
+      console.log(this.searchParams, 'this.searchParams');
+
+      //每一次请求完毕，应该把相应的1、2、3级分类的id置空的，让他接受下一次的相应1、2、3级id
+      this.searchParams.category1Id = '';
+      this.searchParams.category2Id = '';
+      this.searchParams.category3Id = '';
+    }
   },
   mounted() {
     // 在发请求之前，searchParams里面的参数要变化
