@@ -11,10 +11,10 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="searchParams.categoryName">
+              {{ searchParams.categoryName
+              }}<i @click="removeCategoryName">×</i>
+            </li>
           </ul>
         </div>
 
@@ -195,6 +195,21 @@ export default {
     getData() {
       //派发action: 通过vuex发起ajax请求，将数据仓储在仓库当中
       this.$store.dispatch('search/getSearchList', this.searchParams);
+    },
+    removeCategoryName() {
+      this.searchParams.categoryName = undefined;
+      this.searchParams.category1Id = undefined;
+      this.searchParams.category2Id = undefined;
+      this.searchParams.category3Id = undefined;
+      //把带给服务器的参数置空了，再发请求
+      //带给服务器参数说明可有可无的: 如果属性值为空的字符审还是会把相应的字段带给服务器
+      //但是你把相应的字段变为undefined，当前这个字段不会带给服务器
+      this.getData(); // 再次发请求
+      //地址栏也需要需改:进行路由跳转
+      //严谨: 本意是删除query，如果路径当中出现params不应该删除，路由跳转的时候应该带着
+      if (this.$route.params) {
+        this.$router.push({ name: 'search', params: this.$route.params });
+      }
     }
   }
 };
