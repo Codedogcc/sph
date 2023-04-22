@@ -24,6 +24,10 @@ import "swiper/css/swiper.css"
 
 new Vue({
   render: h => h(App),
+  // 全局事件总线$bus配置
+  beforeCreate() {
+    Vue.prototype.$bus = this;
+  },
   // 下面代码作用:给项目添加路由功能,给全部VC实例身上拥有两个属性,$router|$route
   // $route:一般获取路由信息[路径、query、params等等]
   // $router:一般进行编程式导航进行路由跳转[push|replace]

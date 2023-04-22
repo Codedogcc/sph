@@ -57,7 +57,7 @@ export default {
   name: '',
   data() {
     return {
-      keyword: '',
+      keyword: ''
     };
   },
   methods: {
@@ -78,7 +78,7 @@ export default {
       // 第三种传递query+params，对象写法
       let location = {
         name: 'search',
-        params: { keyword: this.keyword || undefined },
+        params: { keyword: this.keyword || undefined }
         // query: { keyword: this.keyword.toUpperCase() },
       };
       // 如果有query函数就得一起带过去
@@ -97,8 +97,15 @@ export default {
       // this.$router.push(
       //   `/search/${this.keyword}?k=${this.keyword.toUpperCase()}`
       // );
-    },
+    }
   },
+  mounted() {
+    //通过全局事件总线清除关键字
+    this.$bus.$on('del-keyword', () => {
+      console.log('通过全局事件总线清除关键字');
+      this.keyword = ''; // 清空input框中的值
+    });
+  }
 };
 </script>
 

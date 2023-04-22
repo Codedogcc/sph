@@ -15,6 +15,9 @@
               {{ searchParams.categoryName
               }}<i @click="removeCategoryName">×</i>
             </li>
+            <li class="with-x" v-if="searchParams.keyword">
+              {{ searchParams.keyword }}<i @click="removeKeyword">×</i>
+            </li>
           </ul>
         </div>
 
@@ -196,6 +199,7 @@ export default {
       //派发action: 通过vuex发起ajax请求，将数据仓储在仓库当中
       this.$store.dispatch('search/getSearchList', this.searchParams);
     },
+    // 删除分类的名字
     removeCategoryName() {
       this.searchParams.categoryName = undefined;
       this.searchParams.category1Id = undefined;
@@ -209,6 +213,15 @@ export default {
       //严谨: 本意是删除query，如果路径当中出现params不应该删除，路由跳转的时候应该带着
       if (this.$route.params) {
         this.$router.push({ name: 'search', params: this.$route.params });
+      }
+    },
+    // 删除关键字
+    removeKeyword() {
+      this.searchParams.keyword = undefined; // 给服务器带的参数searchParams的keyword置空
+      // this.getData(); // 再次发请求
+      this.$bus.$emit('del-keyword');
+      if (this.$route.query) {
+        this.$router.push({ name: 'search', query: this.$route.query });
       }
     }
   }
