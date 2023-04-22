@@ -11,18 +11,25 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
+            <!-- 分类的面包屑 -->
             <li class="with-x" v-if="searchParams.categoryName">
               {{ searchParams.categoryName
               }}<i @click="removeCategoryName">×</i>
             </li>
+            <!-- 关键字的面包屑 -->
             <li class="with-x" v-if="searchParams.keyword">
               {{ searchParams.keyword }}<i @click="removeKeyword">×</i>
+            </li>
+            <!-- 品牌的面包屑 -->
+            <li class="with-x" v-if="searchParams.trademark">
+              {{ searchParams.trademark.split(':')[1]
+              }}<i @click="removeTrademark">×</i>
             </li>
           </ul>
         </div>
 
         <!--selector子组件，-->
-        <SearchSelector />
+        <SearchSelector @trademarkInfo="trademarkInfo" />
 
         <!--details-->
         <div class="details clearfix">
@@ -223,6 +230,17 @@ export default {
       if (this.$route.query) {
         this.$router.push({ name: 'search', query: this.$route.query });
       }
+    },
+    // 取子组件点击分类之后的值
+    trademarkInfo(item) {
+      console.log('search父组件取到子组件的值', item);
+      this.searchParams.trademark = `${item.tmId}:${item.tmName}`;
+      this.getData();
+    },
+    // 删除品牌的面包屑
+    removeTrademark() {
+      this.searchParams.trademark = undefined; // 给服务器带的参数searchParams的keyword置空
+      this.getData(); // 再次发请求
     }
   }
 };
