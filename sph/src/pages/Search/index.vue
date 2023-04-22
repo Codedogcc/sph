@@ -25,11 +25,20 @@
               {{ searchParams.trademark.split(':')[1]
               }}<i @click="removeTrademark">×</i>
             </li>
+            <!-- 售卖属性的面包屑-->
+            <li
+              class="with-x"
+              v-for="(attrval, index) in searchParams.props"
+              :key="index"
+            >
+              {{ attrval.split(':')[1] }}
+              <i @click="removeProps(index)">×</i>
+            </li>
           </ul>
         </div>
 
         <!--selector子组件，-->
-        <SearchSelector @trademarkInfo="trademarkInfo" />
+        <SearchSelector @trademarkInfo="trademarkInfo" @attrInfo="attrInfo" />
 
         <!--details-->
         <div class="details clearfix">
@@ -231,15 +240,34 @@ export default {
         this.$router.push({ name: 'search', query: this.$route.query });
       }
     },
-    // 取子组件点击分类之后的值
+    // 取子组件点击品牌后的值
     trademarkInfo(item) {
-      console.log('search父组件取到子组件的值', item);
+      console.log('search父组件取到子组件的品牌的数据', item);
       this.searchParams.trademark = `${item.tmId}:${item.tmName}`;
       this.getData();
     },
     // 删除品牌的面包屑
     removeTrademark() {
       this.searchParams.trademark = undefined; // 给服务器带的参数searchParams的keyword置空
+      this.getData(); // 再次发请求
+    },
+    // 收集平台售卖属性的回调函数
+    attrInfo(attr, attrVal) {
+      console.log('search父组件取到子组件的售卖属性值', attr, attrVal);
+      // ["属性ID:属性值:属性名”]
+      // 参数格式整理好
+      let props = `${attr.attrId}:${attrVal}:${attr.attrName}`;
+      console.log('售卖属性props', props);
+
+      if (this.searchParams.props.indexOf(props) == -1) {
+        this.searchParams.props.push(props); //数组去重
+      }
+      this.getData();
+    },
+    // 删除品牌的售卖属性的面包屑
+    removeProps(index) {
+      console.log('删除的售卖属性index', index);
+      this.searchParams.props.splice(index, 1); // 过滤掉不符合条件的值
       this.getData(); // 再次发请求
     }
   }

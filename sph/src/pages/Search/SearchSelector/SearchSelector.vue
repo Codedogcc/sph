@@ -20,18 +20,19 @@
     </div>
     <div
       class="type-wrap"
-      v-for="(item, index) in attrsList"
-      :key="item.attrId"
+      v-for="(attr, index) in attrsList"
+      :key="attr.attrId"
     >
-      <div class="fl key">{{ item.attrName }}</div>
+      <div class="fl key">{{ attr.attrName }}</div>
       <div class="fl value">
         <ul
           class="type-list"
-          v-for="(item, index) in item.attrValueList"
+          v-for="(attrVal, index) in attr.attrValueList"
           :key="index"
+          @click="attrValueHandler(attr, attrVal)"
         >
           <li>
-            <a>{{ item }}</a>
+            <a>{{ attrVal }}</a>
           </li>
         </ul>
       </div>
@@ -48,9 +49,15 @@ export default {
     ...mapGetters('search', ['trademarkList', 'attrsList'])
   },
   methods: {
+    // 选择品牌的事件处理函数。选择品牌后，页面将会更新父组件的搜索的params
     tradeMarkHandler(item) {
       console.log('item', item);
-      this.$emit('trademarkInfo', item);  
+      this.$emit('trademarkInfo', item);
+    },
+    // 选择售卖属性的事件处理函数。选择之后页面将会更新父组件的搜索的params
+    attrValueHandler(attr, attrVal) {
+      console.log('售卖属性', attr, attrVal);
+      this.$emit('attrInfo', attr, attrVal); //item2是取得的属性值
     }
   }
 };
