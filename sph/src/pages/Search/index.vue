@@ -46,23 +46,30 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <!-- 排序的解构 -->
+                <li :class="{ active: isOne }">
+                  <a
+                    >综合<span
+                      v-if="isOne"
+                      class="iconfont"
+                      :class="{
+                        'icon-icon-arrow-down': isDesc,
+                        'icon-icon-arrow-up': isAsc
+                      }"
+                    ></span
+                  ></a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{ active: isTwo }">
+                  <a
+                    >价格<span
+                      v-if="isTwo"
+                      class="iconfont"
+                      :class="{
+                        'icon-icon-arrow-down': isDesc,
+                        'icon-icon-arrow-up': isAsc
+                      }"
+                    ></span
+                  ></a>
                 </li>
               </ul>
             </div>
@@ -164,7 +171,7 @@ export default {
         category3Id: '', // 三级分类id
         categoryName: '', // 分类名字
         keyword: '', // 关键字
-        order: '', // 排序
+        order: '1:desc', // 排序，默认  综合+降序
         pageNo: 1, // 页码
         pageSize: 10, // 每页数据量
         props: [], // 平台售卖属性操作带的参数
@@ -207,8 +214,20 @@ export default {
     this.getData();
   },
   computed: {
-    ...mapGetters('search', ['goodsList'])
+    ...mapGetters('search', ['goodsList']),
     // ...mapState({ goodsList: (state) => state.search.searchList.goodsList })
+    isOne() {
+      return this.searchParams.order.indexOf('1') != -1;
+    },
+    isTwo() {
+      return this.searchParams.order.indexOf('2') != -1;
+    },
+    isAsc() {
+      return this.searchParams.order.indexOf('asc') != -1;
+    },
+    isDesc() {
+      return this.searchParams.order.indexOf('desc') != -1;
+    }
   },
   methods: {
     getData() {
