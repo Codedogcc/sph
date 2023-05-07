@@ -84,9 +84,9 @@
               >
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank"
-                      ><img :src="item.defaultImg"
-                    /></a>
+                    <router-link :to="`/detail/${item.id}`">
+                      <img :src="item.defaultImg" />
+                    </router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -159,7 +159,7 @@ export default {
         pageNo: 1, // 页码
         pageSize: 10, // 每页数据量
         props: [], // 平台售卖属性操作带的参数
-        trademark: '', // 品牌
+        trademark: '' // 品牌
       }
     };
   },
