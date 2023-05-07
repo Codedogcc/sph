@@ -118,36 +118,18 @@
             </ul>
           </div>
           <!-- 分页器 -->
-          <!-- <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div> -->
-          <Pagination></Pagination>
+          <!-- 
+          1:分页器组件需要知道我一共展示多少条数据 ------total【100条数据】
+          2:每一个需要展示几条数据------pageSize【每一页3条数据】
+          3:需要知道当前在第几页-------pageNo[当前在第几页]
+          4:需要知道连续页码数【起始数字、结束数字：连续页码数市场当中一般5、7、9】奇数，对称好看------continues 
+          -->
+          <Pagination
+            :pageNo="this.searchParams.pageNo"
+            :pageSize="this.searchParams.pageSize"
+            :total="this.searchParams.total"
+            continues="5"
+          ></Pagination>
         </div>
       </div>
     </div>
@@ -176,7 +158,8 @@ export default {
         pageNo: 1, // 页码
         pageSize: 10, // 每页数据量
         props: [], // 平台售卖属性操作带的参数
-        trademark: '' // 品牌
+        trademark: '', // 品牌
+        total: 657 // 总数据量
       }
     };
   },
