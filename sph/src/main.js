@@ -10,6 +10,8 @@ Vue.component(TypeNav.name, TypeNav)
 import Carousel from '@/components/Carousel'
 Vue.component(Carousel.name, Carousel)
 
+import Pagination from '@/components/Pagination'
+Vue.component(Pagination.name, Pagination)
 
 //注册路由功能
 import router from '@/router';
