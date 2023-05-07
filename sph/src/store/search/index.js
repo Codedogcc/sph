@@ -37,7 +37,9 @@ const getters = {
   attrsList(state) {
     return state.searchList.attrsList || [] // 这样书写是有问题的
   },
-
+  total(state) {
+    return state.searchList.total || 0
+  }
 };
 
 

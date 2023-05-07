@@ -125,10 +125,11 @@
           4:需要知道连续页码数【起始数字、结束数字：连续页码数市场当中一般5、7、9】奇数，对称好看------continues 
           -->
           <Pagination
-            :pageNo="this.searchParams.pageNo"
-            :pageSize="this.searchParams.pageSize"
-            :total="this.searchParams.total"
+            :pageNo="searchParams.pageNo"
+            :pageSize="searchParams.pageSize"
+            :total="total"
             continues="5"
+            @currentChange="currentChange"
           ></Pagination>
         </div>
       </div>
@@ -159,7 +160,6 @@ export default {
         pageSize: 10, // 每页数据量
         props: [], // 平台售卖属性操作带的参数
         trademark: '', // 品牌
-        total: 657 // 总数据量
       }
     };
   },
@@ -198,8 +198,11 @@ export default {
     this.getData();
   },
   computed: {
-    ...mapGetters('search', ['goodsList']),
+    ...mapGetters('search', ['goodsList', 'total']),
     // ...mapState({ goodsList: (state) => state.search.searchList.goodsList })
+    // ...mapState({
+    //   total: (state) => state.search.searchList.total
+    // })
     isOne() {
       return this.searchParams.order.indexOf('1') != -1;
     },
@@ -286,6 +289,11 @@ export default {
         this.searchParams.order = order;
       }
       this.getData();
+    },
+    // 改变当前页码
+    currentChange(val) {
+      this.searchParams.pageNo = val;
+      this.getData(); // 发请求获取数据
     }
   }
 };
