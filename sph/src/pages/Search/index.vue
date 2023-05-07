@@ -47,7 +47,7 @@
             <div class="navbar-inner filter">
               <ul class="sui-nav">
                 <!-- 排序的解构 -->
-                <li :class="{ active: isOne }">
+                <li :class="{ active: isOne }" @click="changeOrder('1')">
                   <a
                     >综合<span
                       v-if="isOne"
@@ -59,7 +59,7 @@
                     ></span
                   ></a>
                 </li>
-                <li :class="{ active: isTwo }">
+                <li :class="{ active: isTwo }" @click="changeOrder('2')">
                   <a
                     >价格<span
                       v-if="isTwo"
@@ -171,7 +171,7 @@ export default {
         category3Id: '', // 三级分类id
         categoryName: '', // 分类名字
         keyword: '', // 关键字
-        order: '1:desc', // 排序，默认  综合+降序
+        order: '1:desc', // 排序，默认  综合+降序  1综合 2价格
         pageNo: 1, // 页码
         pageSize: 10, // 每页数据量
         props: [], // 平台售卖属性操作带的参数
@@ -288,6 +288,20 @@ export default {
       console.log('删除的售卖属性index', index);
       this.searchParams.props.splice(index, 1); // 过滤掉不符合条件的值
       this.getData(); // 再次发请求
+    },
+    // 排序操作
+    changeOrder(val) {
+      let orderRule = this.searchParams.order.split(':')[1] || '';
+      console.log(orderRule);
+      if (orderRule && orderRule == 'desc') {
+        let order = val + ':' + 'asc';
+        this.searchParams.order = order;
+      }
+      if (orderRule && orderRule == 'asc') {
+        let order = val + ':' + 'desc';
+        this.searchParams.order = order;
+      }
+      this.getData();
     }
   }
 };
