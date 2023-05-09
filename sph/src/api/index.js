@@ -37,4 +37,8 @@ export const reqFloorList = () => {
 export const reqGetSearchInfo = (params) => {
   return requests({ method: 'post', url: '/list', data: params });
 }
-// /api/list
+
+//获取产品详情信息的接口 URL: /api/item/[ skuid } 请求方式: get
+export const reqGoodsInfo = (skuid) => {
+  return requests({ url: `/item/${skuid}`, method: 'get' })
+} 
