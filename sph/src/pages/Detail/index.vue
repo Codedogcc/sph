@@ -7,24 +7,22 @@
     <section class="con">
       <!-- 导航路径区域 -->
       <div class="conPoin">
-        <span v-show="categoryView.category1Name">{{
-          categoryView.category1Name
-        }}</span>
-        <span v-show="categoryView.category2Name">{{
-          categoryView.category2Name
-        }}</span>
-        <span v-show="categoryView.category3Name">{{
-          categoryView.category3Name
-        }}</span>
+        <span>{{ categoryView.category1Name }}</span>
+        <span>{{ categoryView.category2Name }}</span>
+        <span>{{ categoryView.category3Name }}</span>
       </div>
       <!-- 主要内容区域 -->
       <div class="mainCon">
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom />
+          <Zoom
+            v-if="skuImageList.length > 0"
+            :imgUrl="skuImageList[currentImgIndex].imgUrl"
+            :bigImgUrl="skuImageList[currentImgIndex].imgUrl"
+          />
           <!-- 小图列表 -->
-          <ImageList />
+          <ImageList @changeCurrentIndex="changeCurrentIndex" />
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
@@ -77,39 +75,31 @@
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <dl>
-                <dt class="title">选择颜色</dt>
-                <dd changepirce="0" class="active">金色</dd>
-                <dd changepirce="40">银色</dd>
-                <dd changepirce="90">黑色</dd>
-              </dl>
-              <dl>
-                <dt class="title">内存容量</dt>
-                <dd changepirce="0" class="active">16G</dd>
-                <dd changepirce="300">64G</dd>
-                <dd changepirce="900">128G</dd>
-                <dd changepirce="1300">256G</dd>
-              </dl>
-              <dl>
-                <dt class="title">选择版本</dt>
-                <dd changepirce="0" class="active">公开版</dd>
-                <dd changepirce="-1000">移动版</dd>
-              </dl>
-              <dl>
-                <dt class="title">购买方式</dt>
-                <dd changepirce="0" class="active">官方标配</dd>
-                <dd changepirce="-240">优惠移动版</dd>
-                <dd changepirce="-390">电信优惠版</dd>
+              <dl v-for="(attr, index) in spuSaleAttrList" :key="attr.id">
+                <dt class="title">{{ attr.saleAttrName }}</dt>
+                <dd
+                  v-for="(value, index) in attr.spuSaleAttrValueList"
+                  :key="value.id"
+                  :class="{ active: value.isChecked === '1' }"
+                  @click="selectValue(value, attr.spuSaleAttrValueList)"
+                >
+                  {{ value.saleAttrValueName }}
+                </dd>
               </dl>
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input autocomplete="off" class="itxt" v-model="skuNum" />
+                <a href="javascript:" class="plus" @click="skuNum++">+</a>
+                <a
+                  href="javascript:"
+                  class="mins"
+                  @click="skuNum > 1 ? skuNum-- : ''"
+                  >-</a
+                >
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:" @click="addToCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -348,28 +338,89 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import ImageList from './ImageList/ImageList';
 import Zoom from './Zoom/Zoom';
-import { mapGetters } from 'vuex';
 
 export default {
   name: 'Detail',
 
-  components: {
-    ImageList,
-    Zoom
+  data() {
+    return {
+      currentImgIndex: 0, // 当前图片下标
+      skuNum: 1 // 商品的数量
+    };
   },
+
   mounted() {
-    //派发action获取产品详情的信息
-    this.$store.dispatch('detail/getGoodsInfo', this.$route.params.skuid);
+    // 取出skuId的params参数
+    const skuid = this.$route.params.skuid;
+    // 分发给获取商品详情的异步action
+    this.$store.dispatch('detail/getGoodsInfo', skuid);
   },
+
   computed: {
     ...mapGetters('detail', [
       'categoryView',
       'skuInfo',
       'spuSaleAttrList',
-      'price'
+      'skuImageList'
     ])
+  },
+
+  methods: {
+    /* 
+      选择某个属性值
+      */
+    selectValue(value, valueList) {
+      // 如果当前项没有选中才处理
+      if (value.isChecked !== '1') {
+        // 将所有的项都先指定为不选择
+        valueList.forEach((v) => (v.isChecked = '0'));
+        // 选中当前的
+        value.isChecked = '1';
+      }
+    },
+
+    /* 
+      changeCurrentIndex事件的回调函数
+       */
+    changeCurrentIndex(index) {
+      // 更新当前的currentImgIndex
+      this.currentImgIndex = index;
+    },
+
+    /* 
+      将当前商品添加到购物车, 成功后跳转到成功界面
+      */
+    async addToCart() {
+      const query = { skuid: this.skuInfo.id, skuNum: this.skuNum };
+      // 分发添加购物车的action
+      // this.$store.dispatch('addToCart', {...query, callback: this.callback})
+      const errorMsg = await this.$store.dispatch('addToCart2', query);
+      this.callback(errorMsg);
+    },
+
+    callback(errorMsg) {
+      const query = { skuid: this.skuInfo.id, skuNum: this.skuNum };
+      // 如果成功了
+      if (!errorMsg) {
+        // 在跳转前将skuInfo保存到sessionStorage (key=value, value只能是字符串)
+        window.sessionStorage.setItem(
+          'SKU_INFO_KEY',
+          JSON.stringify(this.skuInfo)
+        );
+
+        this.$router.push({ path: '/addcartsuccess', query });
+      } else {
+        alert(errorMsg);
+      }
+    }
+  },
+
+  components: {
+    ImageList,
+    Zoom
   }
 };
 </script>

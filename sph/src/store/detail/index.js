@@ -33,6 +33,10 @@ const getters = {
   spuSaleAttrList(state) {
     return state.goodInfo.spuSaleAttrList || [];
   },
+  skuImageList(state) {
+    return state.goodInfo.skuInfo?.skuImageList || [];
+  },
+
 };
 
 
