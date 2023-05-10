@@ -18,7 +18,22 @@ const actions = {
     }
   }
 };
-const getters = {};
+
+//简化数据而生
+const getters = {
+  categoryView(state) {
+    return state.goodInfo.categoryView || {};
+  },
+  skuInfo(state) {
+    return state.goodInfo.skuInfo || {};
+  },
+  price(state) {
+    return state.goodInfo.price || 0;
+  },
+  spuSaleAttrList(state) {
+    return state.goodInfo.spuSaleAttrList || [];
+  },
+};
 
 
 //对外暴露仓库(store类的一个实例)
