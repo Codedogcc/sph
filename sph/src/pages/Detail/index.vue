@@ -396,8 +396,14 @@ export default {
     async addToCart() {
       const query = { skuid: this.skuInfo.id, skuNum: this.skuNum };
       // 分发添加购物车的action
-      // this.$store.dispatch('addToCart', {...query, callback: this.callback})
-      const errorMsg = await this.$store.dispatch('addToCart2', query);
+      // this.$store.dispatch('detail/addOrUpdateShopCart', {
+      //   skuid: this.skuInfo.id,
+      //   skuNum: this.skuNum
+      // });
+      const errorMsg = await this.$store.dispatch(
+        'detail/addOrUpdateShopCart',
+        query
+      );
       this.callback(errorMsg);
     },
 
