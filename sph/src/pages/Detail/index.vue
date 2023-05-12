@@ -395,11 +395,11 @@ export default {
       */
     async addToCart() {
       const query = { skuid: this.skuInfo.id, skuNum: this.skuNum };
-      // 分发添加购物车的action
-      // this.$store.dispatch('detail/addOrUpdateShopCart', {
-      //   skuid: this.skuInfo.id,
-      //   skuNum: this.skuNum
-      // });
+      /*
+      当前这里是派发一个action，也想服务器发请求,判断加入购物车是成功还是失败了,进行相应的操作。
+      this.$store.dispatch('addOrUpdatesShopCart', {skuld:this.$route.params .skuid,skuNum:this .skuNum))
+      上面这行代码说白了:调用仓库中的addOrUpdateShopCart方法,这个方法加上async，返回一定是一个Promise
+      */
       const errorMsg = await this.$store.dispatch(
         'detail/addOrUpdateShopCart',
         query
