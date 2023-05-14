@@ -404,8 +404,12 @@ export default {
         'detail/addOrUpdateShopCart',
         query
       );
-      debugger;
       this.callback(errorMsg);
+      //3:进行路由跳转
+      //4:在路由跳转的时候还需要将产品的信息带给下一级的路由组件
+      //一些简单的数据skuNum，通过query形式给路由组件传递过去
+      //产品信息的数据[比较复杂:skuInfo],通过会话存储 (不持久化,会话结束数据在消失)
+
       // try {
       //   await this.$store.dispatch('addOrUpdateShopCart', {
       //     skuId: this.$route.params.skuid,
@@ -425,7 +429,7 @@ export default {
         // 在跳转前将skuInfo保存到sessionStorage (key=value, value只能是字符串)
         window.sessionStorage.setItem(
           'SKU_INFO_KEY',
-          JSON.stringify(this.skuInfo)
+          JSON.stringify(this.skuInfo) // 要stringify转化为字符串才能存，是因为本地存储和会话存储都不能存对象
         );
 
         this.$router.push({ path: '/addcartsuccess', query });
