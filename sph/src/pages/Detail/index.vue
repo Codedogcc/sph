@@ -404,7 +404,18 @@ export default {
         'detail/addOrUpdateShopCart',
         query
       );
+      debugger;
       this.callback(errorMsg);
+      // try {
+      //   await this.$store.dispatch('addOrUpdateShopCart', {
+      //     skuId: this.$route.params.skuid,
+      //     skuNum: this.skuNum
+      //   });
+      //   this.$router.push({ path: '/addcartsuccess', query });
+      // } catch (error) {
+      //   //失败
+      //   alert(error.message);
+      // }
     },
 
     callback(errorMsg) {

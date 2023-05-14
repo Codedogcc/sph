@@ -5,13 +5,22 @@ import Search from '@/pages/Search';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import Detail from '@/pages/Detail';
+import AddCartSuccess from '@/pages/AddCartSuccess';
+
 export default [
   {
-    path: '/detail/:skuid',
-    component: Detail,
-    //路由元信息,新学习的一个配置项!!!!给当前路由添加一些额外数据
+    path: '/addcartsuccess',
+    component: AddCartSuccess,
+    name: 'addcartsuccess',
+    //meta路由元信息,新学习的一个配置项!!!!给当前路由添加一些额外数据
     //它的右侧是一个对象[可以有多个键值对]
     //路由配置项：书写的时候不要胡写、乱写、瞎写【在VC组件身上获取不到,没有任何意义】
+    meta: { show: true },
+  },
+  {
+    // 路由的路径一定是小写
+    path: '/detail/:skuid',
+    component: Detail,
     meta: { show: true },
   },
   {
@@ -19,9 +28,6 @@ export default [
     //命名路由,给路由起一个名字
     name: 'erha',
     component: Home,
-    //路由元信息,新学习的一个配置项!!!!给当前路由添加一些额外数据
-    //它的右侧是一个对象[可以有多个键值对]
-    //路由配置项：书写的时候不要胡写、乱写、瞎写【在VC组件身上获取不到,没有任何意义】
     meta: { show: true },
   },
   {
