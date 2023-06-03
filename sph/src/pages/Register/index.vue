@@ -16,26 +16,32 @@
       <div class="content">
         <label>验证码:</label>
         <input type="text" placeholder="请输入验证码" v-model="code" />
-        <button style="width: 100px; height: 38px">获取验证码</button>
+        <button style="width: 100px; height: 38px" @click="getCode">
+          获取验证码
+        </button>
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="content">
         <label>登录密码:</label>
-        <input type="text" placeholder="请输入你的登录密码" />
+        <input
+          type="text"
+          placeholder="请输入你的登录密码"
+          v-model="password"
+        />
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="content">
         <label>确认密码:</label>
-        <input type="text" placeholder="请输入确认密码" />
+        <input type="text" placeholder="请输入确认密码" v-model="password1" />
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="controls">
-        <input name="m1" type="checkbox" />
+        <input name="m1" type="checkbox" :checked="agree" />
         <span>同意协议并注册《尚品汇用户协议》</span>
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="btn">
-        <button>完成注册</button>
+        <button @click="userRegister">完成注册</button>
       </div>
     </div>
 
@@ -62,11 +68,42 @@ export default {
   name: 'Register',
   data() {
     return {
-      // 收集表单数据--手机号
       phone: '', // 用户输入的手机号码
-      code: '' // 用户输入的验证码
+      code: '', // 用户输入的验证码\
+      password: '', // 用户输入的密码
+      password1: '', // 确认密码
+      agree: true // 是否同意协议并注册
     };
-  } // data() is a function, it can be used to define data that will be bound to the component. It can also
+  },
+  methods: {
+    // 获取验证码
+    getCode() {
+      //简单判断一下---至少用数据
+      const { phone } = this;
+      phone && this.$store.dispatch('user/getCode', phone);
+      //将组件的code属性值变为仓库中验证码
+      console.log('this.$store', this.$store);
+      this.code = this.$store.state.user.code;
+    },
+    // 注册用户操作
+    async userRegister() {
+      try {
+        // 如果成功，路由跳转
+        const { phone, code, password, password1 } = this;
+        phone &&
+          code &&
+          password == password1 &&
+          (await this.$store.dispatch('user/userRegister', {
+            phone,
+            code,
+            password
+          }));
+        this.$router.push('/login');
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+  }
 };
 </script>
 
