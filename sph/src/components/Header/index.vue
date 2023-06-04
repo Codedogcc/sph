@@ -6,10 +6,14 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!userName">
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link class="register" to="/register">注册</router-link>
+          </p>
+          <p v-else>
+            <span>{{ userName }}</span>
+            <router-link class="register" to="">退出登录</router-link>
           </p>
         </div>
         <div class="typeList">
@@ -53,6 +57,7 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 export default {
   name: '',
   data() {
@@ -105,6 +110,12 @@ export default {
       console.log('通过全局事件总线清除关键字');
       this.keyword = ''; // 清空input框中的值
     });
+  },
+  computed: {
+    // 用户名信息
+    userName() {
+      return this.$store.state.user.userInfo.name;
+    }
   }
 };
 </script>

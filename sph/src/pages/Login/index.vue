@@ -86,12 +86,12 @@ export default {
     };
   },
   methods: {
-    userLogin() {
+    async userLogin() {
       try {
         const { phone, password } = this;
-        phone &&
-          password &&
-          this.$store.dispatch('user/userLogin', { phone, password });
+        if (phone && password) {
+          await this.$store.dispatch('user/userLogin', { phone, password });
+        }
         this.$router.push('/home');
       } catch (error) {
         alert(error.message);

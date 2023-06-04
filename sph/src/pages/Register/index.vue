@@ -77,10 +77,10 @@ export default {
   },
   methods: {
     // 获取验证码
-    getCode() {
+    async getCode() {
       //简单判断一下---至少用数据
       const { phone } = this;
-      phone && this.$store.dispatch('user/getCode', phone);
+      phone && (await this.$store.dispatch('user/getCode', phone));
       //将组件的code属性值变为仓库中验证码
       console.log('this.$store', this.$store);
       this.code = this.$store.state.user.code;

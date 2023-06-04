@@ -1,8 +1,9 @@
-import { reqGetCode, reqUserRegister, reqUserLogin } from '@/api';
+import { reqGetCode, reqUserRegister, reqUserLogin, reqGetUserInfo } from '@/api';
 
 const state = {
   code: '', // 验证码字符串，在登录成功后将更改为登录状态，
   token: '', // 用户的token
+  userInfo: {},// 用户的信息
 };
 
 const mutations = {
@@ -12,6 +13,9 @@ const mutations = {
 
   USERLOGIN(state, token) {
     state.token = token; // 保存品牌详情到state中
+  },
+  GETUSERINFO(state, userInfo) {
+    state.userInfo = userInfo; // 保存品牌详情到state中
   },
 };
 const actions = {
@@ -37,7 +41,18 @@ const actions = {
     console.log("result---user的登录store", result);
     if (result.code == 200) {
       commit("USERLOGIN", result.data.token);
-      return 'ok'
+      return 'ok';
+    } else {
+      return Promise.reject(new Error('faile'));
+    }
+  },
+
+  // 获取用户信息
+  async getUserInfo({ commit }) {
+    let result = await reqGetUserInfo()
+    console.log("result---user的用户信息store", result);
+    if (result.code == 200) {
+      commit("GETUSERINFO", result.data);
     } else {
       return Promise.reject(new Error('faile'));
     }

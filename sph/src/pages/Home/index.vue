@@ -32,17 +32,19 @@ export default {
     Rank,
     Like,
     Floor,
-    Brand,
+    Brand
   },
   mounted() {
     //派发action,获取floor组件的数据
-    console.log('派发getFloorList的action');
     this.$store.dispatch('home/getFloorList');
+
+    //获取用户信息在首页展示
+    this.$store.dispatch('user/getUserInfo');
   },
   computed: {
     // ...mapState('home', { floorlist: 'floorlist' }),
-    ...mapState('home', ['floorList']),
-  },
+    ...mapState('home', ['floorList'])
+  }
 };
 </script>
 
