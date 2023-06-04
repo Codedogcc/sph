@@ -13,7 +13,7 @@
           </p>
           <p v-else>
             <span>{{ userName }}</span>
-            <router-link class="register" to="">退出登录</router-link>
+            <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -102,6 +102,13 @@ export default {
       // this.$router.push(
       //   `/search/${this.keyword}?k=${this.keyword.toUpperCase()}`
       // );
+    },
+    // 退出登录
+    async logout() {
+      try {
+        await this.$store.dispatch('user/userLogout');
+        this.$router.push('/home');
+      } catch (error) {}
     }
   },
   mounted() {

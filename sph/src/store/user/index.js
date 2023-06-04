@@ -1,6 +1,6 @@
-import { reqGetCode, reqUserRegister, reqUserLogin, reqGetUserInfo } from '@/api';
+import { reqGetCode, reqUserRegister, reqUserLogin, reqGetUserInfo, reqLogout } from '@/api';
 // 这里的方法没加大括号会报错：(0 , _utils_token__WEBPACK_IMPORTED_MODULE_1__.default) is not a function
-import { setToken, getToken } from '@/utils/token';
+import { setToken, getToken, removeToken } from '@/utils/token';
 const state = {
   code: '', // 验证码字符串，在登录成功后将更改为登录状态，
   token: getToken(), // 用户的token
@@ -17,6 +17,12 @@ const mutations = {
   },
   GETUSERINFO(state, userInfo) {
     state.userInfo = userInfo; // 保存品牌详情到state中
+  },
+  // 清除本地用户信息
+  CLEARUSERINFO(state) {
+    state.token = '';
+    state.userInfo = {}; // 清除
+    removeToken();
   },
 };
 const actions = {
@@ -56,6 +62,19 @@ const actions = {
     console.log("result---user的用户信息store", result);
     if (result.code == 200) {
       commit("GETUSERINFO", result.data);
+    } else {
+      return Promise.reject(new Error('faile'));
+    }
+  },
+
+  // 退出登录
+  async userLogout({ commit }) {
+    let result = await reqLogout()
+    console.log("result---user的退出登录store", result);
+    if (result.code == 200) {
+      // action里面不能操作state，提交mutation修改state
+      commit("CLEARUSERINFO");
+      return 'ok';
     } else {
       return Promise.reject(new Error('faile'));
     }
