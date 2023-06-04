@@ -1,8 +1,9 @@
 import { reqGetCode, reqUserRegister, reqUserLogin, reqGetUserInfo } from '@/api';
-
+// 这里的方法没加大括号会报错：(0 , _utils_token__WEBPACK_IMPORTED_MODULE_1__.default) is not a function
+import { setToken, getToken } from '@/utils/token';
 const state = {
   code: '', // 验证码字符串，在登录成功后将更改为登录状态，
-  token: '', // 用户的token
+  token: getToken(), // 用户的token
   userInfo: {},// 用户的信息
 };
 
@@ -41,6 +42,8 @@ const actions = {
     console.log("result---user的登录store", result);
     if (result.code == 200) {
       commit("USERLOGIN", result.data.token);
+      // 持久化存储token
+      setToken(result.data.token);
       return 'ok';
     } else {
       return Promise.reject(new Error('faile'));
