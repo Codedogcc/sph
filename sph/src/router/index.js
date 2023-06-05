@@ -45,11 +45,47 @@ let router = new VueRouter({
 })
 
 // 全局守卫：前置守，在路由跳转之间进行判断
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   //to:可以获取到你要跳转到那个路由信息
   //from:可以获取到你从哪个路由而来的信息
   //next:放行函数  next(path)放行指定路由，next(false),中断当前导航
   console.log('去往的路由', to, '从哪里来', from, '放行之后干什么函数', next, 'store', store)
+  let token = store.state.user.token;
+
+  //用户信息
+  let name = store.state.user.userInfo.name;
+
+  //用户已经登陆了才有token
+  if (token) {
+    //用户已经登陆了还想去login[不能去，停留在首页]
+    if (to.path == '/login') {
+      next('/home')
+    } else {
+      //登陆,去的不是login,而是[home|search|detail|shopcart]
+      // 如果用户名已有
+      if (name) {
+        next();
+      } else {
+        // 没有用户信息，派发action让仓库存储用户信息再跳转
+        try {
+          // 获取用户信息成功
+          await store.dispatch('user/getUserInfo');
+          // 放行
+          next();
+        } catch (error) {
+          // token失效了，从新登陆
+          // 先清除删除用户存储信息，然后重定向到登录页面。
+          store.dispatch('user/userLogout');
+          next('/login');
+        }
+      }
+
+    }
+  } else {
+    next()
+  }
+
+
 });
 
 

@@ -62,6 +62,7 @@ const actions = {
     console.log("result---user的用户信息store", result);
     if (result.code == 200) {
       commit("GETUSERINFO", result.data);
+      return 'ok';
     } else {
       return Promise.reject(new Error('faile'));
     }
