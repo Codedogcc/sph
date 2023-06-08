@@ -100,15 +100,42 @@ export default {
       this.$store.dispatch('shopcart/getCartList');
     },
     // 更改商品数量回调函数
-    handler(type, e, item) {
-      if (type == 'add') {
-      } else if (type == 'mins') {
-      } else if (type == 'change') {
-      }
+    async handler(type, disNum, item) {
       //type:为了区分这三个元素input最终的个数 (并不是变化量)
       //e:  + 变化量 (1)   -变化量 (-1)   input最终的个数(并不是变化量)
       //cart:哪一个产品[身上有id]
-      console.log('type', type, 'e', e, 'item', item);
+      console.log('type', type, 'disNum', disNum, 'item', item);
+
+      switch (type) {
+        case 'add':
+          disNum = 1;
+          break;
+        case 'mins':
+          //判断产品的个数大于1，才可以传递给服务器-1
+          //如果出现产品的个数小于等于1，传递给服务器个数o(原封不动)
+          disNum = item.skuNum > 1 ? -1 : 0;
+          break;
+        case 'change':
+          //用户输入进来的最终量，非法的|(带有汉字) ，带给服务器数字
+          if (isNaN(disNum) || disNum < 1) {
+            disNum = 0;
+          } else {
+            disNum = parseInt(disNum) - item.skuNum;
+            debugger;
+          }
+          break;
+        default:
+          break;
+      }
+      try {
+        //修改成功后派发action
+        await this.$store.dispatch('shopcart/addOrUpdateShopCart', {
+          skuid: item.skuId,
+          skuNum: disNum
+        });
+        // 重新获取数据进行展示
+        this.getData();
+      } catch (error) {}
     }
   },
   mounted() {
