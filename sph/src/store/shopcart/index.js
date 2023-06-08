@@ -1,4 +1,4 @@
-import { reqCartList } from '@/api';
+import { reqCartList, reqAddOrUpdateShopCart } from '@/api';
 const state = {
   cartList: []
 };
@@ -13,6 +13,10 @@ const actions = {
     console.log("result---shopcart的获取购物车信息store", result);
     if (result.code == 200) { commit("GETCARTLIST", result.data); }
   },
+  //将购物车中产品的数量修改到数据库中
+  async addOrUpdateShopCart({ commit }, { skuid, skuNum }) {
+    let result = await reqAddOrUpdateShopCart(skuid, skuNum);
+  }
 };
 const getters = {
   cartList(state) {
