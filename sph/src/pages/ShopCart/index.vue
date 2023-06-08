@@ -121,7 +121,6 @@ export default {
             disNum = 0;
           } else {
             disNum = parseInt(disNum) - item.skuNum;
-            debugger;
           }
           break;
         default:
