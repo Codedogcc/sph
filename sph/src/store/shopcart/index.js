@@ -1,4 +1,4 @@
-import { reqCartList, reqAddOrUpdateShopCart } from '@/api';
+import { reqCartList, reqAddOrUpdateShopCart, reqDeleteCartById } from '@/api';
 const state = {
   cartList: []
 };
@@ -16,7 +16,14 @@ const actions = {
   //将购物车中产品的数量修改到数据库中
   async addOrUpdateShopCart({ commit }, { skuid, skuNum }) {
     let result = await reqAddOrUpdateShopCart(skuid, skuNum);
-  }
+  },
+  //删除购物车某一个产品
+  async deleteCartListBySkuId({ commit }, skuId) {
+    let result = await reqDeleteCartById(skuId);
+    if (result.code == 200) {
+      return "ok";
+    } else { return Promise.reject(new Error("faile")); }
+  },
 };
 const getters = {
   cartList(state) {

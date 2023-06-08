@@ -58,7 +58,9 @@
             <span class="sum">{{ item.skuNum * item.skuPrice }}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a href="#none" class="sindelet" @click="deleteCartById(item)"
+              >删除</a
+            >
             <br />
             <a href="#none">移到收藏</a>
           </li>
@@ -91,7 +93,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-
+import throttle from 'lodash/throttle';
 export default {
   name: 'ShopCart',
   methods: {
@@ -135,7 +137,20 @@ export default {
         // 重新获取数据进行展示
         this.getData();
       } catch (error) {}
-    }
+    },
+    //删除某一个产品的操作
+    deleteCartById: throttle(async function (item) {
+      try {
+        //如果删除成功再次发请求获取新的数据进行展示
+        await this.$store.dispatch(
+          'shopcart/deleteCartListBySkuId',
+          item.skuId
+        );
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    }, 100)
   },
   mounted() {
     this.getData();

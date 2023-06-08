@@ -49,6 +49,12 @@ export const reqAddOrUpdateShopCart = (skuId, skuNum) => requests({
   method: "post"
 })
 
+//删除购物产品的接口
+export const reqDeleteCartById = (skuId) => requests({
+  url: `/cart/deleteCart/${skuId}`,
+  method: "delete"
+})
+
 // 获取购物车列表数据接口
 export const reqCartList = () => requests({
   url: `/cart/cartList`,

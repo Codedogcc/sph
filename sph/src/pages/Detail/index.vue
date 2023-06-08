@@ -344,7 +344,6 @@ import Zoom from './Zoom/Zoom';
 
 export default {
   name: 'Detail',
-
   data() {
     return {
       currentImgIndex: 0, // 当前图片下标
