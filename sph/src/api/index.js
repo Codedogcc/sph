@@ -49,6 +49,12 @@ export const reqAddOrUpdateShopCart = (skuId, skuNum) => requests({
   method: "post"
 })
 
+// 获取购物车列表数据接口
+export const reqCartList = () => requests({
+  url: `/cart/cartList`,
+  method: "get"
+})
+
 // 获取验证码
 export const reqGetCode = (phone) => requests({
   url: `/user/passport/sendCode/${phone}`,
