@@ -21,6 +21,7 @@
               type="checkbox"
               name="chk_list"
               :checked="item.isChecked == 1"
+              @change="updateChecked(item, $event)"
             />
           </li>
           <li class="cart-list-con2">
@@ -101,8 +102,8 @@ export default {
     getData() {
       this.$store.dispatch('shopcart/getCartList');
     },
-    // 更改商品数量回调函数
-    async handler(type, disNum, item) {
+    // 更改商品数量回调函数,使用节流函数  每500毫秒只能请求一次
+    handler: throttle(async function (type, disNum, item) {
       //type:为了区分这三个元素input最终的个数 (并不是变化量)
       //e:  + 变化量 (1)   -变化量 (-1)   input最终的个数(并不是变化量)
       //cart:哪一个产品[身上有id]
@@ -137,9 +138,10 @@ export default {
         // 重新获取数据进行展示
         this.getData();
       } catch (error) {}
-    },
+    }, 600),
+
     //删除某一个产品的操作
-    deleteCartById: throttle(async function (item) {
+    async deleteCartById(item) {
       try {
         //如果删除成功再次发请求获取新的数据进行展示
         await this.$store.dispatch(
@@ -150,7 +152,22 @@ export default {
       } catch (error) {
         alert(error.message);
       }
-    }, 100)
+    },
+
+    // 修改购物车某一个产品的选中状态
+    updateChecked(item, event) {
+      // item 带过来的商品信息 , event 是点击的选中状态
+      try {
+        let isChecked = event.target.checked ? '1' : '0';
+        this.$store.dispatch('shopcart/updateCheckedById', {
+          skuId: item.skuId,
+          isChecked
+        });
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    }
   },
   mounted() {
     this.getData();

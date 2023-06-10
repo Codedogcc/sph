@@ -1,4 +1,4 @@
-import { reqCartList, reqAddOrUpdateShopCart, reqDeleteCartById } from '@/api';
+import { reqCartList, reqAddOrUpdateShopCart, reqDeleteCartById, reqUpdateCheckedByid } from '@/api';
 const state = {
   cartList: []
 };
@@ -10,7 +10,6 @@ const actions = {
   // 用户注册
   async getCartList({ commit }) {
     let result = await reqCartList()
-    console.log("result---shopcart的获取购物车信息store", result);
     if (result.code == 200) { commit("GETCARTLIST", result.data); }
   },
   //将购物车中产品的数量修改到数据库中
@@ -24,10 +23,17 @@ const actions = {
       return "ok";
     } else { return Promise.reject(new Error("faile")); }
   },
+
+  // 更改商品的选中状态
+  async updateCheckedById({ commit }, { skuId, isChecked }) {
+    let result = await reqUpdateCheckedByid(skuId, isChecked);
+    if (result.code == 200) {
+      return "ok";
+    } else { return Promise.reject(new Error("修改状态失败faile")); }
+  }
 };
 const getters = {
   cartList(state) {
-    console.log(state, "steatesa");
     return state.cartList[0] || {}
   },
 };
