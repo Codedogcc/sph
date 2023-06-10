@@ -34,7 +34,7 @@ const actions = {
       //将每一次返回的Promise添加到数组当中
       PromiseAll.push(promise);
     })
-    // 只要全部的promise都成功，返回结果即为成功，如果有一个失败，则失败
+    // 只要全部的promise都成功，返回结果即为成功，如果有一个失败，则返回失败
     return Promise.all(PromiseAll)
   },
 
@@ -44,7 +44,24 @@ const actions = {
     if (result.code == 200) {
       return "ok";
     } else { return Promise.reject(new Error("修改状态失败faile")); }
-  }
+  },
+
+  // 更改全部商品的选中状态
+  async checkAllCart({ dispatch, state }, isChecked) {
+    // let result = await reqUpdateCheckedByid(isChecked);
+    // if (result.code == 200) {
+    //   return "ok";
+    // } else { return Promise.reject(new Error("修改状态失败faile")); }
+    console.log("dispatch", dispatch, "state", state, "isChecked", isChecked);
+    let PromiseAll = [];
+    state.cartList[0].cartInfoList.forEach(item => {
+      // item.isChecked != isChecked ? dispatch('updateCheckedById', { skuId: item.skuId, isChecked }) : '';
+      let promise = dispatch('updateCheckedById', { skuId: item.skuId, isChecked })
+      PromiseAll.push(promise);
+    })
+    // 只要全部的promise都成功，返回结果即为成功，如果有一个失败，则返回失败
+    return Promise.all(PromiseAll)
+  },
 };
 const getters = {
   cartList(state) {

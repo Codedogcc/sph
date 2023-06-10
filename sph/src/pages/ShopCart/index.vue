@@ -70,7 +70,13 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checke="isAllCheck" />
+        <input
+          class="chooseAll"
+          type="checkbox"
+          :checked="isAllCheck"
+          :disabled="cartInfoList.length == 0"
+          @click="updateAllCartChecked"
+        />
         <span>全选</span>
       </div>
       <div class="option">
@@ -178,6 +184,18 @@ export default {
       } catch (error) {
         alert(error.message);
       }
+    },
+
+    // 商品全选/全不选，相当于修改所有产品的选中状态
+    async updateAllCartChecked(event) {
+      try {
+        let isChecked = event.target.checked ? '1' : '0'; //选中/未选中
+        // 派发action
+        await this.$store.dispatch('shopcart/checkAllCart', isChecked);
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
     }
   },
   mounted() {
@@ -200,7 +218,7 @@ export default {
     },
     //判断底部复选框是否勾选[全部产品都选中]
     isAllCheck() {
-      return this.cartInfoList.every((item) => item.isChecked == -1);
+      return this.cartInfoList.every((item) => item.isChecked == 1);
     }
   }
 };
