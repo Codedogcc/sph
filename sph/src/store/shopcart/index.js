@@ -24,6 +24,20 @@ const actions = {
     } else { return Promise.reject(new Error("faile")); }
   },
 
+  // 删除全部勾选的产品
+  deleteAllCheckedCart({ dispatch, getters, state, commit }) {
+    //context:小仓库，commit[提交mutations修改state] getters [计算属性] dispatch[派发action] state[当前仓库数据)
+    //获取购物车中全部的产品 (是一个数组)
+    let PromiseAll = [];
+    getters.cartList.cartInfoList.forEach(item => {
+      let promise = item.isChecked == 1 ? dispatch('deleteCartListBySkuId', item.skuId) : '';
+      //将每一次返回的Promise添加到数组当中
+      PromiseAll.push(promise);
+    })
+    // 只要全部的promise都成功，返回结果即为成功，如果有一个失败，则失败
+    return Promise.all(PromiseAll)
+  },
+
   // 更改商品的选中状态
   async updateCheckedById({ commit }, { skuId, isChecked }) {
     let result = await reqUpdateCheckedByid(skuId, isChecked);
