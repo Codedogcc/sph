@@ -9,6 +9,7 @@ import search from './search';
 import detail from './detail';
 import user from './user';
 import shopcart from './shopcart';
+import trade from './trade'
 //对外暴露仓库(store类的一个实例)
 //第一个注意:需要关键字new，你没有new会报错的
 //第二个注意:Store构造函数,书写的时候别小写
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     search,
     detail,
     user,
-    shopcart
+    shopcart,
+    trade
   }
 })

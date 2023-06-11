@@ -33,7 +33,7 @@ const actions = {
       let promise = item.isChecked == 1 ? dispatch('deleteCartListBySkuId', item.skuId) : '';
       //将每一次返回的Promise添加到数组当中
       PromiseAll.push(promise);
-    })
+    }   )
     // 只要全部的promise都成功，返回结果即为成功，如果有一个失败，则返回失败
     return Promise.all(PromiseAll)
   },
