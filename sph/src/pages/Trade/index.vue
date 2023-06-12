@@ -7,11 +7,12 @@
         class="address clearFix"
         v-for="(item, index) in addressInfo"
         :key="item.id"
+        @click="changeDefault(item, addressInfo)"
       >
         <span class="username" :class="{ selected: item.isDefault == 1 }">{{
           item.consignee
         }}</span>
-        <p @click="changeDefault(item, addressInfo)">
+        <p>
           <span class="s1">{{ item.fullAddress }}</span>
           <span class="s2">{{ item.phoneNum }}</span>
           <span class="s3" v-show="item.isDefault == 1">默认地址</span>
@@ -35,21 +36,28 @@
       </div>
       <div class="detail">
         <h5>商品清单</h5>
-        <ul class="list clearFix">
+        <ul
+          class="list clearFix"
+          v-for="(item, index) in orderInfo.detailArrayList"
+          :key="item.skuId"
+        >
           <li>
-            <img src="./images/goods.png" alt="" />
+            <img
+              :src="item.imgUrl"
+              alt=""
+              style="width: 100px; height: 100px"
+            />
           </li>
           <li>
             <p>
-              Apple iPhone 6s (A1700) 64G 玫瑰金色
-              移动联通电信4G手机硅胶透明防摔软壳 本色系列
+              {{ item.skuName }}
             </p>
             <h4>7天无理由退货</h4>
           </li>
           <li>
-            <h3>￥5399.00</h3>
+            <h3>￥{{ item.orderPrice }}</h3>
           </li>
-          <li>X1</li>
+          <li>X{{ item.skuNum }}</li>
           <li>有货</li>
         </ul>
       </div>
@@ -58,6 +66,7 @@
         <textarea
           placeholder="建议留言前先与商家沟通确认"
           class="remarks-cont"
+          v-model="msg"
         ></textarea>
       </div>
       <div class="line"></div>
@@ -70,8 +79,11 @@
     <div class="money clearFix">
       <ul>
         <li>
-          <b><i>1</i>件商品，总商品金额</b>
-          <span>¥5399.00</span>
+          <b
+            ><i>{{ orderInfo.totalNum }}</i
+            >件商品，总商品金额</b
+          >
+          <span>¥{{ orderInfo.totalAmount }}</span>
         </li>
         <li>
           <b>返现：</b>
@@ -104,7 +116,10 @@ export default {
   name: 'Trade',
 
   data() {
-    return {};
+    return {
+      //收集买家的留言信息
+      msg: ''
+    };
   },
   mounted() {
     this.$store.dispatch('trade/getUserAddress');
@@ -120,11 +135,12 @@ export default {
   },
   computed: {
     ...mapState({
-      addressInfo: (state) => state.trade.address
+      addressInfo: (state) => state.trade.address,
+      orderInfo: (state) => state.trade.orderInfo
     }),
     // 将来提交订单
     userDefaultAddress() {
-      return this.addressInfo.find((item) => item.isDefault == 1);
+      return this.addressInfo.find((item) => item.isDefault == 1) || {};
     }
   }
 };

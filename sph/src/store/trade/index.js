@@ -1,6 +1,7 @@
 import { reqAddressInfo, reqOrderInfo, reqMockAddress } from '@/api';
 const state = {
-  address: {}
+  address: {},
+  orderInfo: {}
 };
 
 const mutations = {
