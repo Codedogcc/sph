@@ -19,6 +19,10 @@ export const reqFloorList = () => {
   return mockRequests({ method: 'get', url: '/floor' });
 }
 
+// 获取地址数据
+export const reqMockAddress = () => {
+  return mockRequests({ method: 'get', url: '/address' });
+}
 //获取搜索模块数据 地址:/api/list 请求方式：post
 /* 入参例子
   {

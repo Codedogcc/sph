@@ -1,6 +1,6 @@
-import { reqAddressInfo, reqOrderInfo } from '@/api';
+import { reqAddressInfo, reqOrderInfo, reqMockAddress } from '@/api';
 const state = {
-
+  address: {}
 };
 
 const mutations = {
@@ -13,8 +13,15 @@ const mutations = {
 };
 const actions = {
   // 获取用户地址信息
+  // async getUserAddress({ commit }) {
+  //   let result = await reqAddressInfo();
+  //   if (result.code == 200) {
+  //     commit('GETUSERADDRESS', result.data);
+  //   }
+  // },
   async getUserAddress({ commit }) {
-    let result = await reqAddressInfo();
+    let result = await reqMockAddress();
+    console.log(result, "mockresult");
     if (result.code == 200) {
       commit('GETUSERADDRESS', result.data);
     }
@@ -23,7 +30,7 @@ const actions = {
   //获取商品清单数据
   async getOrderInfo() {
     let result = await reqOrderInfo();
-    console.log("RESULE", result);
+    console.log("获取商品清单RESULE", result);
     if (result.code == 200) {
       commit('GETORDERINFO', result.data);
     }

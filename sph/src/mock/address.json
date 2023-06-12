@@ -1,0 +1,24 @@
+[
+  {
+    "consignee": "张龙",
+    "fullAddress": "北京北京市朝阳区远洋天地5号楼15",
+    "id": 1361,
+    "isDefault": "1",
+    "phoneNum": "15852016643",
+    "provinceId": 1,
+    "regionId": 1,
+    "userAddress": "北京市朝阳区远洋天地5号楼15",
+    "userId": 2
+  },
+  {
+    "consignee": "eeeeeeee",
+    "fullAddress": "广东揭阳市揭西县和破解的",
+    "id": 1362,
+    "isDefault": "0",
+    "phoneNum": "13131313131",
+    "provinceId": 2,
+    "regionId": 2,
+    "userAddress": "广东揭阳市揭西县和破解的",
+    "userId": 3
+  }
+]

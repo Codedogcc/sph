@@ -3,12 +3,18 @@
     <h3 class="title">填写并核对订单信息</h3>
     <div class="content">
       <h5 class="receive">收件人信息</h5>
-      <div class="address clearFix">
-        <span class="username selected">张三</span>
-        <p>
-          <span class="s1">北京市昌平区宏福科技园综合楼6层</span>
-          <span class="s2">15010658793</span>
-          <span class="s3">默认地址</span>
+      <div
+        class="address clearFix"
+        v-for="(item, index) in addressInfo"
+        :key="item.id"
+      >
+        <span class="username" :class="{ selected: item.isDefault == 1 }">{{
+          item.consignee
+        }}</span>
+        <p @click="changeDefault(item, addressInfo)">
+          <span class="s1">{{ item.fullAddress }}</span>
+          <span class="s2">{{ item.phoneNum }}</span>
+          <span class="s3" v-show="item.isDefault == 1">默认地址</span>
         </p>
       </div>
 
@@ -78,11 +84,11 @@
       </ul>
     </div>
     <div class="trade">
-      <div class="price">应付金额:　<span>¥5399.00</span></div>
+      <div class="price">应付金额:　<span>{{}}</span></div>
       <div class="receiveInfo">
         寄送至:
-        <span>北京市昌平区宏福科技园综合楼6层</span>
-        收货人：<span>张三</span>
+        <span>{{ userDefaultAddress.fullAddress }}</span>
+        收货人：<span> {{ userDefaultAddress.consignee }} </span>
         <span>15010658793</span>
       </div>
     </div>
@@ -93,13 +99,34 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: 'Trade',
+
+  data() {
+    return {};
+  },
   mounted() {
     this.$store.dispatch('trade/getUserAddress');
     this.$store.dispatch('trade/getOrderInfo');
   },
-  methods: {}
+  methods: {
+    //修改默认地址
+    changeDefault(item, addressInfo) {
+      //全部的isDefault为零
+      addressInfo.forEach((item) => (item.isDefault = 0));
+      item.isDefault = 1;
+    }
+  },
+  computed: {
+    ...mapState({
+      addressInfo: (state) => state.trade.address
+    }),
+    // 将来提交订单
+    userDefaultAddress() {
+      return this.addressInfo.find((item) => item.isDefault == 1);
+    }
+  }
 };
 </script>
 
