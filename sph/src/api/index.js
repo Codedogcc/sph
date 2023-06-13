@@ -19,10 +19,16 @@ export const reqFloorList = () => {
   return mockRequests({ method: 'get', url: '/floor' });
 }
 
-// 获取地址数据
+// 模拟获取地址数据
 export const reqMockAddress = () => {
   return mockRequests({ method: 'get', url: '/address' });
 }
+
+// 模拟获取订单页数据
+export const reqMockOrderInfo = () => {
+  return mockRequests({ method: 'get', url: '/order' });
+}
+
 //获取搜索模块数据 地址:/api/list 请求方式：post
 /* 入参例子
   {
@@ -114,4 +120,11 @@ export const reqLogout = () => requests({
 export const reqOrderInfo = () => requests({
   url: `/order/auth/trade`,
   method: "get"
+})
+
+// 提交订单
+export const reqSubmitOrder = (tradeNo, data) => requests({
+  url: `/order/auth/submitOrder?tradeNo=${tradeNo}`,
+  method: "post",
+  data
 })

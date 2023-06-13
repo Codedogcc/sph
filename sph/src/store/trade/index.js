@@ -1,7 +1,7 @@
-import { reqAddressInfo, reqOrderInfo, reqMockAddress } from '@/api';
+import { reqAddressInfo, reqOrderInfo, reqMockAddress, reqMockOrderInfo } from '@/api';
 const state = {
-  address: {},
-  orderInfo: {}
+  address: [],
+  orderInfo: []
 };
 
 const mutations = {
@@ -22,15 +22,15 @@ const actions = {
   // },
   async getUserAddress({ commit }) {
     let result = await reqMockAddress();
-    console.log(result, "mockresult");
     if (result.code == 200) {
       commit('GETUSERADDRESS', result.data);
     }
   },
   // 获取商品清单
   //获取商品清单数据
-  async getOrderInfo() {
-    let result = await reqOrderInfo();
+  async getOrderInfo({ commit }) {
+    // let result = await reqOrderInfo();// 原接口获取不到数据，改用自己mock的接口
+    let result = await reqMockOrderInfo();
     console.log("获取商品清单RESULE", result);
     if (result.code == 200) {
       commit('GETORDERINFO', result.data);

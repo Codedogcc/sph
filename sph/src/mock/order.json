@@ -1,0 +1,32 @@
+{
+  "activityReduceAmount": 0,
+  "couponInfoList": [],
+  "detailArrayList": [
+    {
+      "activityRule": "",
+      "couponInfoList": "",
+      "createTime": "",
+      "hasstock": "",
+      "id": "",
+      "imgUrl": "http://182.92.128.115:8080//rBFUDF6V0JmAG9XGAAGL4LZv5fQ163.png",
+      "orderId": "",
+      "orderPrice": 123453,
+      "refundStatus": "",
+      "refundstatusString": "",
+      "skuId": 5432,
+      "skuName": "1234",
+      "skuNum": 1,
+      "sourceId": 5432,
+      "sourceType": "OUERY",
+      "splitActivityAmount": "",
+      "splitCouponAmount": "",
+      "splitTotalAmount": ""
+    }
+  ],
+  "orderDetailVoList": [],
+  "originalTotalAmount": 5555,
+  "totalAmount": 5555,
+  "totalNum": 1,
+  "tradeNo": "1b23c1efc8144bfc83e51807f4e71d3a",
+  "userAddressList": ""
+}
