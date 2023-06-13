@@ -128,3 +128,7 @@ export const reqSubmitOrder = (tradeNo, data) => requests({
   method: "post",
   data
 })
+// 获取订单支付信息
+export const reqPayInfo = () => {
+  return mockRequests({ method: 'get', url: '/paydetail' });
+}

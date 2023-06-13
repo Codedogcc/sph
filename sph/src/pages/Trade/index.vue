@@ -119,7 +119,9 @@ export default {
   data() {
     return {
       //收集买家的留言信息
-      msg: ''
+      msg: '',
+      // 订单号
+      orderId: ''
     };
   },
   mounted() {
@@ -148,8 +150,16 @@ export default {
         orderDetailList: this.orderInfo.detailArrayList //商品清单
       };
       //需要带参数的: tradeNo
-      let res = await this.$API.reqSubmitOrder(tradeNo, data);
-      
+      let result = await this.$API.reqSubmitOrder(tradeNo, data);
+      //提交订单成功
+      if (result.code == 201) {
+        this.orderId = result.data;
+        //路由跳转 + 路由传递参数
+        this.$router.push('/pay?orderId=' + this.orderId);
+      } else {
+        //提交的订单失败
+        alert(result.data);
+      }
     }
   },
   computed: {
