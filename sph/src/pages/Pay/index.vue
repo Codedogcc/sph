@@ -76,8 +76,8 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <router-link class="btn" to="/paysuccess"></router-link>
-          <a href="" class="btn">立即支付</a>
+          <!-- <router-link class="btn" to="/paysuccess"></router-link> -->
+          <a class="btn" @click="open">立即支付</a>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -105,6 +105,7 @@ export default {
     this.getPayInfo(); //生命周期中尽量不要用async和await，优化为在这里调函数，然后给函数加async和await
   },
   methods: {
+    // 获取支付信息
     async getPayInfo() {
       let result = await this.$API.reqPayInfo();
       console.log('resss', result);
@@ -112,6 +113,17 @@ export default {
       if (result.code == 200) {
         this.payInfo = result.data.data;
       }
+    },
+    //弹出框
+    open() {
+      this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
+        dangerouslyUseHTMLString: true, // 是将 message 属性作为HTML 片段处理
+        center: true, // 居中
+        showCancelButton: true, // 是否显示取消按钮
+        cancelButtonText: '支付遇见问题', //取消按钮里面的文本内容
+        confirmButtonText: '已支付成功', // 确定按钮里面的文本内容
+        showClose: false //MessageBox 是否显示右上角关闭按钮
+      });
     }
   }
 };

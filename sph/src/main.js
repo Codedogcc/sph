@@ -13,6 +13,13 @@ Vue.component(Carousel.name, Carousel)
 import Pagination from '@/components/Pagination'
 Vue.component(Pagination.name, Pagination)
 
+// 引入按钮、消息提示组件
+import { Button, MessageBox } from 'element-ui';
+Vue.component(Button.name, Button)
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+
+
 //注册路由功能
 import router from '@/router';
 
