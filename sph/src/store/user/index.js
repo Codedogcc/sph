@@ -72,7 +72,7 @@ const actions = {
   async userLogout({ commit }) {
     let result = await reqLogout()
     console.log("result---user的退出登录store", result);
-    if (result.code == 200) {
+    if (result.code == 200 || 201) {
       // action里面不能操作state，提交mutation修改state
       commit("CLEARUSERINFO");
       return 'ok';

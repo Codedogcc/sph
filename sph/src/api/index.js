@@ -138,3 +138,9 @@ export const reqPaystatus = (orderId) => requests({
   url: `/payment/weixin/queryPayStatus/${orderId}`,
   method: "get"
 })
+
+// 模拟获取个人中心我的订单列表
+// /order/auth/{page}/{limit}
+export const reqMyOrderList = () => {
+  return mockRequests({ method: 'get', url: '/personorder' });
+}
