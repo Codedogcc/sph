@@ -137,17 +137,23 @@ export default {
           //发请求获取用户支付状态
           let res = await this.$API.reqPaystatus(this.orderId);
           console.log(res, 'resssssfs');
-          if (result.code == 200) {
+          if (res.code == 200) {
             //第一步: 清除定时器
             clearInterval(this.timer);
             this.timer.null;
             //保存支付成功返回的code
-            this.code = result.code;
+            this.code = res.code;
             //关闭弹出框
             this.$msgbox.close();
-            //跳转到下一路由
-            this.$route.push('/paysuccess');
+            // //跳转到下一路由
+            // this.$router.push('/paysuccess');
           }
+          //第一步: 清除定时器
+          clearInterval(this.timer);
+          //关闭弹出框
+          this.$msgbox.close();
+          //跳转到下一路由
+          this.$router.push('/paysuccess');
         }, 1000);
       }
     }
