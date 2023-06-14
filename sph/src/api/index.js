@@ -132,3 +132,9 @@ export const reqSubmitOrder = (tradeNo, data) => requests({
 export const reqPayInfo = () => {
   return mockRequests({ method: 'get', url: '/paydetail' });
 }
+
+// 查询支付订单状态
+export const reqPaystatus = (orderId) => requests({
+  url: `/payment/weixin/queryPayStatus/${orderId}`,
+  method: "get"
+})

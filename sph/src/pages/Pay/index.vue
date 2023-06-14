@@ -94,11 +94,14 @@
 </template>
 
 <script>
+import ORCode from 'qrcode';
 export default {
   name: 'Pay',
   data() {
     return {
-      payInfo: {}
+      payInfo: {},
+      timer: null
+      // 支付状态码
     };
   },
   mounted() {
@@ -115,8 +118,11 @@ export default {
       }
     },
     //弹出框
-    open() {
-      this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
+    async open() {
+      //生成二维码
+      let resulet = await ORCode.toDataURL(this.payInfo.codeUrl);
+      console.log('ressulet', resulet);
+      this.$alert(`<img src=${resulet} />`, '请使用微信支付', {
         dangerouslyUseHTMLString: true, // 是将 message 属性作为HTML 片段处理
         center: true, // 居中
         showCancelButton: true, // 是否显示取消按钮
@@ -124,6 +130,26 @@ export default {
         confirmButtonText: '已支付成功', // 确定按钮里面的文本内容
         showClose: false //MessageBox 是否显示右上角关闭按钮
       });
+      //你需要知道支付成功1失败
+      //支付成功，路由的跳转，如果支付失败，提示信息
+      if (!this.timer) {
+        this.timer = setInterval(async () => {
+          //发请求获取用户支付状态
+          let res = await this.$API.reqPaystatus(this.orderId);
+          console.log(res, 'resssssfs');
+          if (result.code == 200) {
+            //第一步: 清除定时器
+            clearInterval(this.timer);
+            this.timer.null;
+            //保存支付成功返回的code
+            this.code = result.code;
+            //关闭弹出框
+            this.$msgbox.close();
+            //跳转到下一路由
+            this.$route.push('/paysuccess');
+          }
+        }, 1000);
+      }
     }
   }
 };
