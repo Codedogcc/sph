@@ -85,7 +85,7 @@ router.beforeEach(async (to, from, next) => {
     //未登录:不能去交易相关trade、不能去支付相关[pay/paysuccess]、不能去个人中心center
     //未登录去上面这些路由-----登录
     let toPath = to.path;
-    if (toPath.indexof('/trade') != -1 || topath.indexof('/pay') != -1 || topath.indexof('/center') != -1) {
+    if ((toPath.indexOf('/trade') != -1 || toPath.indexOf('/pay') != -1 || toPath.indexOf('/center') != -1)) {
       //把未登录的时候向去而没有去成的信息，存储起来到地址栏中
       next('/login?redirect=' + toPath);
     } else {
