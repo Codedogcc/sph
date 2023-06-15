@@ -1,6 +1,6 @@
-// 路由的配置信息
+
 // 引入路由组件
-import Home from '@/pages/Home';
+// import Home from '@/pages/Home';
 import Search from '@/pages/Search';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
@@ -16,6 +16,15 @@ import Center from '@/pages/Center';
 import MyOrder from '@/pages/Center/myOrder'
 import GroupOrder from '@/pages/Center/groupOrder'
 
+const foo = () => {
+  return import("@/pages/Home")
+}
+
+// 当打包构建应用时，JavaScript 包会变得非常大，影响页面加载。
+// 如果我们能把不同路由对应的组件分割成不同的代码块，然后当路由被访问的时候才加载对应组件，
+// 这样就会更加高效。
+
+// 路由的配置信息
 export default [
   {
     path: '/center',
@@ -95,14 +104,14 @@ export default [
     path: '/home',
     //命名路由,给路由起一个名字
     name: 'erha',
-    component: Home,
+    component: foo,// 懒加载的写法
     meta: { show: true },
   },
   {
     name: 'search',
     //在注册路由的时候,如果这里占位，切记务必要传递params，当params后面带有问号的时候，这时就可传可不传
     path: '/search/:keyword?',
-    component: Search,
+    component: () => import('@/pages/Search'),  // 懒加载写法
     meta: { show: true },
     //新增配置项:props,给路由组件传递props参数
     //第一种布尔模式,相当于把params参数，作为props属性值传递给这个路由组件
